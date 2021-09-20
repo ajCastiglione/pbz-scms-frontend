@@ -1,0 +1,26 @@
+.import {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+    form {
+        min-width: 22rem;
+        padding: 1rem;
+        border-radius: 20px;
+        -webkit-box-shadow: 6px 8px 16px 1px rgba(0, 0, 0, 0.22);
+        box-shadow: 6px 8px 16px 1px rgba(0, 0, 0, 0.22);
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        margin-top: 1rem;
+
+        a{
+            text-decoration: none;
+            color: blue;
+        }
+
+        & > * {
+            margin-bottom: 1rem;
+        }
+    }
+}

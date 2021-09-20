@@ -1,0 +1,34 @@
+.Container {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 1rem 0;
+}
+
+h2 {
+  font-weight: 100;
+}
+
+.Recipient {
+  margin-top: 1rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.Recipient .Details {
+  margin-top: 1rem;
+}
+.Recipient .menus {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+}
+.Recipient .Details__box {
+  border-bottom: 1px solid #bbbbbb;
+  margin-bottom: 0.6rem;
+}
+.Recipient span {
+  font-weight: 600;
+  margin-left: 1rem;
+}

@@ -1,0 +1,91 @@
+.Nav {
+  width: 100%;
+  background-color: #327AB7;
+  display: flex;
+  flex-direction: column;
+}
+.Nav__heading {
+  color: white;
+  padding: 0 0.5rem;
+  font-size: 1.1rem;
+}
+.Nav__lower {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0rem 1rem;
+  min-height: 2.8rem;
+  background-color: #e6e6e6;
+  border-bottom: 1px solid #c2c2c2;
+}
+.Nav__lower__icon {
+  cursor: pointer;
+}
+@media only screen and (min-width: 764px) {
+  .Nav__lower__icon {
+    display: none;
+  }
+}
+.Nav__lower__list {
+  list-style: none;
+  display: flex;
+  align-items: center;
+}
+@media only screen and (max-width: 764px) {
+  .Nav__lower__list {
+    position: absolute;
+    top: -999rem;
+    left: 0;
+    width: 100%;
+    opacity: 0;
+    min-height: 100vh;
+    background-color: white;
+    flex-direction: column;
+    align-items: center;
+    display: flex;
+    transition: all 0.3s;
+    z-index: 9999;
+  }
+  .Nav__lower__list .LowerNav__list__item {
+    margin: 3rem 0rem;
+  }
+}
+.Nav__lower__list__item {
+  height: 100%;
+  display: flex;
+}
+.Nav__lower__list__item a {
+  height: 100%;
+  padding: 0.8rem 0.8rem;
+  color: #414141;
+  text-decoration: none;
+  font-size: 0.9rem;
+}
+.Nav__lower__list__item a:hover {
+  background-color: #327AB7;
+  color: white;
+}
+.Nav__lower button {
+  height: 100%;
+  padding: 0.8rem 0.8rem;
+  color: #414141;
+  text-decoration: none;
+  font-size: 1rem;
+  cursor: pointer;
+  border: none;
+  background-color: transparent;
+}
+.Nav__lower button:hover {
+  background-color: #327AB7;
+  color: white;
+}
+
+.activeRoute {
+  background-color: #327AB7;
+  color: white !important;
+}
+
+.open {
+  top: 7rem;
+  opacity: 1;
+}

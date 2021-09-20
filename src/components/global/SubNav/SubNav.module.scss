@@ -1,0 +1,37 @@
+@import '../../../scss/global.scss';
+
+.SubNav {
+    background-color: rgb(243, 243, 243);
+    padding: 0 1rem;
+
+    &__list {
+        list-style: none;
+        display: flex;
+        align-items: center;
+
+
+        &__item {
+            height: 100%;
+            display: flex;
+
+            a {
+                height: 100%;
+                padding: .8rem .8rem;
+                color: rgb(65, 65, 65);
+                text-decoration: none;
+                font-size: .9rem;
+                transition: all .2s;
+
+                &:hover {
+                    border-bottom: 1px solid $primary;
+
+                }
+            }
+        }
+    }
+}
+
+.activeRoute {
+    border-bottom: 1px solid $primary;
+    background-color: white;
+}
