@@ -42,7 +42,7 @@ const AddOrder = () => {
     }, [])
     // Redux State getters
     const lines = useSelector(state => state.orders.ordersLines)
-    const [newLines, setNewLines] = useState([])
+    const [newLines, setNewLines] = useState(lines)
     const pages = useSelector(state => Math.ceil(state.inventory.total / 10))
     const loading = useSelector(state => state.orders.loading)
     const inventory = useSelector(state => state.inventory.inventory)
@@ -67,6 +67,10 @@ const AddOrder = () => {
 
         })
     });
+
+    useEffect(() => {
+        setNewLines(lines);
+    }, [lines])
 
     const addOrder = (e, invId) => {
         const data = {
@@ -98,13 +102,13 @@ const AddOrder = () => {
 
     const editCases = (e, id, type) => {
         if (type === 'quantity_cases') {
-            setNewLines(lines.map(line =>
+            setNewLines(newLines.map(line =>
                 line._id === id
                     ? { ...line, quantity_cases: e.target.value }
                     : line
             ))
         }else{
-            setNewLines(lines.map(line =>
+            setNewLines(newLines.map(line =>
                 line._id === id
                     ? { ...line, quantity_units: e.target.value }
                     : line
@@ -177,18 +181,16 @@ const AddOrder = () => {
                         </TableHead>
                         <TableBody>
                             {lines.length > 0 ? (
-                                lines.map(row => (
+                                lines.map((row, i) => (
                                     <TableRow key={row.id}>
                                         <TableCell align="center">{row.item.number}</TableCell>
                                         <TableCell align="center">{row.item.name}</TableCell>
                                         <TableCell align="center">{row.item.description}</TableCell>
                                         <TableCell align="center">
-                                            <p>{row.quantity_cases}</p>
-                                            <input type="number" style={{ width: '4rem' }} onChange={e => editCases(e, row._id, 'quantity_cases')} />
+                                            <input type="number" style={{ width: '4rem' }} value={newLines[i]?.quantity_cases} onChange={e => editCases(e, row._id, 'quantity_cases')} />
                                         </TableCell>
                                         <TableCell align="center">
-                                            <p>{row.quantity_units}</p>
-                                            <input type="number" style={{ width: '4rem' }} onChange={e => editCases(e, row._id, 'quantity_units')} />
+                                            <input type="number" style={{ width: '4rem' }} value={newLines[i]?.quantity_units} onChange={e => editCases(e, row._id, 'quantity_units')} />
                                         </TableCell>
                                         <TableCell align="center">
                                             <Button variant="contained" color="primary" style={{ marginRight: '1rem' }} onClick={() => saveOrder(row._id)}>Save</Button>
