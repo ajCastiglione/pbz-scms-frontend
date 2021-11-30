@@ -74,7 +74,9 @@ const Upload = (props) => {
     }
 
     const downloadFile = (e, row) => {
-        axios.get(`https://scms-api.herokuapp.com/uploads/test.csv`)
+        /* axios.get(`https://scms-api.herokuapp.com/uploads/test.csv`) */
+        /* axios.get(`http://localhost:4000/uploads/test.csv`) */
+        axios.get(`http://18.119.141.222:3000/uploads/test.csv`)
             .then(res => {
 
             })

@@ -57,7 +57,9 @@ export const checkAuthTimeout = (expireTime) => {
 export const authUser = (data) => {
     return dispatch => {
         dispatch(authStart())
-        axios.post('https://scms-api.herokuapp.com/auth/login', data)
+        /* axios.post('https://scms-api.herokuapp.com/auth/login', data) */
+        /* axios.post('http://localhost:4000/auth/login', data) */
+        axios.post('http://18.119.141.222:3000/auth/login', data)
         .then(res => {
             const expirationDate = new Date(new Date().getTime() + res.data.data.token_expiresIn);
             localStorage.setItem('token', res.data.data.token);

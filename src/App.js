@@ -39,7 +39,9 @@ function App() {
     dispatch(actions.authCheckState())
   }, [dispatch])
 
-  axios.defaults.baseURL = 'https://scms-api.herokuapp.com';
+  /* axios.defaults.baseURL = 'https://scms-api.herokuapp.com'; */
+  /* axios.defaults.baseURL = 'http://localhost:4000'; */
+  axios.defaults.baseURL = 'http://18.119.141.222:3000';
   axios.defaults.headers.common['Authorization'] = `auth ${token}`;
   if (sudoToken){
     axios.defaults.headers.common['Sudo'] = `auth ${sudoToken}`;
