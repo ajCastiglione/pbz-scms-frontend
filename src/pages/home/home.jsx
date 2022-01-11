@@ -187,12 +187,13 @@ const Home = (props) => {
                     <TableBody>
                         {data.length > 0 ? (
                             data.map(o => (
+                                
                                 <TableRow key={o._id}>
                                     <TableCell align="center"><Button variant="contained" color="primary" onClick={(e) => goEdit(e, o)}>Edit</Button></TableCell>
                                     <TableCell align="center" style={{ maxWidth: '8rem' }}><p style={{ overflow: 'scroll', overflowY: 'hidden' }}>{o._id}</p></TableCell>
                                     <TableCell align="center">
                                         {o.recipient.name} {o.recipient.contact}
-                                        {o.recipient.countary !== 'US' || o.recipient.country !== 'United States' ? <><br /><strong>International? {o.recipient.country}</strong></> : null}
+                                        { (o.recipient.country !== 'US' && o.recipient.country !== 'United States') ? <><br /><strong>International? {o.recipient.country}</strong></> : null}
                                         {!o.recipient.phone || o.recipient.phone.length < 8 ? <><br /><span style={{ color: 'red' }}>No recipient phone number (or phone # too short)</span></> : null}
                                     </TableCell>
                                     <TableCell align="center">{o.createdAt.slice(0, 10)}</TableCell>
@@ -200,9 +201,11 @@ const Home = (props) => {
                                     <TableCell align="center">{o.shipped}</TableCell>
                                     <TableCell align="center">{
                                         (() => {
-                                            if (o.status === 1)
+                                            if(o.status === 0)
+                                                return 'Unknown'
+                                            else if (o.status === 1)
                                                 return 'Pending'
-                                            if (o.status === 1)
+                                            else if (o.status === 2)
                                                 return 'Shipped'
                                             else
                                                 return 'Cancelled'

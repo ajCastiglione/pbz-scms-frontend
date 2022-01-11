@@ -68,6 +68,7 @@ const CreateInventory = () => {
     } else {
       setValidationErrors({});
     }
+
     let data = {
       name: name,
       number: number,
@@ -77,9 +78,9 @@ const CreateInventory = () => {
       qoh_units: parseInt(quantityUnits),
       case_weight: parseInt(caseWeight),
       reorder_quantity: parseInt(reorderQuantity),
-      length: parseInt(length),
-      width: parseInt(width),
-      height: parseInt(height),
+      length: (length === '' ? 0 : parseInt(length)),
+      width: (width === '' ? 0 : parseInt(width)),
+      height: (height === '' ? 0 : parseInt(height)),
       ship_ready: isReady,
     };
     if (location.state) {
@@ -116,16 +117,6 @@ const CreateInventory = () => {
     if (reorderQuantity === "") {
       errors.reorderQuantity = true;
     }
-    if (length === "") {
-      errors.length = true;
-    }
-    if (width === "") {
-      errors.width = true;
-    }
-    if (height === "") {
-      errors.height = true;
-    }
-
     return errors;
   };
 
@@ -140,6 +131,9 @@ const CreateInventory = () => {
 
   const preValidation = (func, _name) => ({target: {value}}) => {
       if(value !== '') {
+          if(_name == 'number') {
+            value = value.replace(/[^A-Za-z0-9]/ig, '')
+          }
           const newValidationErrors = JSON.parse(JSON.stringify(validationErrors));
           delete newValidationErrors[_name];
           setValidationErrors(newValidationErrors);
@@ -163,7 +157,6 @@ const CreateInventory = () => {
             label="Item Number"
             value={number}
             onChange={preValidation(setNumber, 'number')}
-            type="number"
             {...(validationErrors.number && { error: true })}
           />
           <TextField

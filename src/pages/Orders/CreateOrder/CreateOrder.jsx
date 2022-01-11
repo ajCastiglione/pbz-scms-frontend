@@ -9,13 +9,19 @@ import { useHistory } from 'react-router';
 import classes from './CreateOrder.module.scss';
 // Material UI
 import { makeStyles } from '@material-ui/core/styles';
-import InputLabel from '@material-ui/core/InputLabel';
 import Button from '@material-ui/core/Button';
-import MenuItem from '@material-ui/core/MenuItem';
-import FormControl from '@material-ui/core/FormControl';
-import Select from '@material-ui/core/Select';
 import TextField from '@material-ui/core/TextField';
 import Autocomplete from '@material-ui/lab/Autocomplete';
+import { CircularProgress } from '@material-ui/core';
+import Paper from '@material-ui/core/Paper';
+import Table from '@material-ui/core/Table';
+import TableBody from '@material-ui/core/TableBody';
+import TableCell from '@material-ui/core/TableCell';
+import TableContainer from '@material-ui/core/TableContainer';
+import TableHead from '@material-ui/core/TableHead';
+import TableRow from '@material-ui/core/TableRow';
+import Box from "@material-ui/core/Box";
+
 // Axios
 import axios from 'axios';
 // Material UI Styles
@@ -29,15 +35,27 @@ const useStyles = makeStyles((theme) => ({
     },
 }));
 
-const CreateOrder = () => {
+  
+function sleep(delay = 0) {
+    return new Promise((resolve) => {
+        setTimeout(resolve, delay);
+    });
+}
+
+    
+const CreateOrder = props => {
     // Hooks consts
     const matClasses = useStyles();
     const dispatch = useDispatch();
     const history = useHistory();
     // State consts
     const [reci, setReci] = useState(null);
+    const [open, setOpen] = React.useState(false);
+    const [options, setOptions] = React.useState([]);
+    const loading = open && options.length === 0;
+
     // const [page, setPage] = useState(1)
-    const [searchedRecipients, setSearchedRecipients] = useState([])
+  
     // // Redux State getters
     // const recipients = useSelector(state => state.recipients.recipients)
     // const pages = useSelector(state => Math.ceil(state.recipients.total / 10))
@@ -46,13 +64,35 @@ const CreateOrder = () => {
     //     dispatch(actions.getRecipients(page))
     // }, [page])
 
+    useEffect(() => {
 
-    const handleChangeReci = (e) => {
-        console.log('rasr')
-        setReci(searchedRecipients.find(p => p._id === e.target.value))
-        console.log(reci)
+        let active = true;
 
-    }
+        if (!loading) {
+            return undefined;
+        }
+
+        async function searchRecipients() {
+            try {
+                const response = await axios.get('/recipient/api/search')
+                setOptions(response.data.data)
+            } catch (error) {
+                setOptions([])
+            }
+        }
+
+        searchRecipients()
+
+        return () => {
+            active = false;
+        };
+        }, [loading]);
+
+        React.useEffect(() => {
+        if (!open) {
+            setOptions([]);
+        }
+    }, [open]);
 
     const goCreateRec = () => {
         history.push('/recipient/add-update/null')
@@ -74,59 +114,65 @@ const CreateOrder = () => {
             })
     }
 
-    const searchReceipients = (e) => {
-        axios.get(`/recipient/api/search?search=${e.target.value}`)
-        .then(res => {
-            console.log(res)
-            setSearchedRecipients(res.data.data)
-        })
+    const setSelectedRecipients = (e) => {
+        console.log(e)
+        setReci(e);
     }
 
-    return (
+    const handleChange = (event, value) => setSelectedRecipients(value);
+
+    let shipConfirmation = true;
+    let lineItems = [];
+
+    console.log('States=>', props.location);
+    if(props.location.state === undefined || props.location.state === null) {
+        shipConfirmation = false;
+    } else {
+        shipConfirmation = (props.location.state === null && props.location.state.shipConfirmation === null) ? 0 : props.location.state.shipConfirmation;
+        lineItems = props.location.state.lineItems;
+    }
+
+
+    return !shipConfirmation ? (
         <div className={classes.Container}>
             <Button variant="contained" color="primary" onClick={goCreateRec}>Create New Recipient</Button>
             <div className={classes.Recipient}>
                 <p>Or select existing recipient</p>
                 <h2>Recipient</h2>
                 <div className={classes.menus}>
-                    {/* <FormControl className={matClasses.formControl}>
-                        <InputLabel id="demo-simple-select-label">Recipient</InputLabel>
-                        <Select
-                            labelId="demo-simple-select-placeholder-label-label"
-                            id="demo-simple-select-placeholder-label"
-                            onChange={handleChangeReci}
-                            className={matClasses.selectEmpty}
-                        >
-                            {recipients.map((reci => (
-                                <MenuItem key={reci._id} value={reci._id}>{reci.name}</MenuItem>
-                            )))}
-                        </Select>
-                    </FormControl>
-                    <FormControl className={matClasses.formControl}>
-                        <InputLabel id="demo-simple-select-label">Pages</InputLabel>
-                        <Select
-                            labelId="demo-simple-select-placeholder-label-label"
-                            id="demo-simple-select-placeholder-label"
-                            onChange={e => setPage(Number(e.target.value))}
-                            className={matClasses.selectEmpty}
-                        >
-                            {[...Array(pages)].map(((page, index) => (
-                                <MenuItem key={index} value={index+1}>{index+1}</MenuItem>
-                            )))}
-                        </Select>
-                    </FormControl> */                    
-                    }
-                    <TextField id="standard-basic" label="Search Recipients" onChange={e => searchReceipients(e)}/>
-                    <Select
-                            labelId="demo-simple-select-placeholder-label-label"
-                            id="demo-simple-select-placeholder-label"
-                            onChange={handleChangeReci}
-                            className={matClasses.selectEmpty}
-                        >
-                            {searchedRecipients.map((reci => (
-                                <MenuItem key={reci._id} value={reci._id}>{reci.name ? `${reci.name} ${reci.contact} ${reci.street1}` : `${reci.contact} ${reci.street1}`}</MenuItem>
-                            )))}
-                        </Select>
+
+                    <Autocomplete
+                        id="asyncAutocomplete"
+                        sx={{ width: 300 }}
+                        open={open}
+                        onOpen={() => {
+                            setOpen(true);
+                        }}
+                        onClose={() => {
+                            setOpen(false);
+                        }}
+                        onChange={handleChange}                  
+                        isOptionEqualToValue={(option, value) => option.name === value.name}
+                        getOptionLabel={(option) => option.name}
+                        options={options}
+                        loading={loading}
+                        renderInput={(params) => (
+                            <TextField
+                                {...params}
+                                label="Search Recipients"
+                                InputProps={{
+                                    ...params.InputProps,
+                                    endAdornment: (
+                                    <React.Fragment>
+                                        {loading ? <CircularProgress color="inherit" size={20} /> : null}
+                                        {params.InputProps.endAdornment}
+                                    </React.Fragment>
+                                    ),
+                                }}
+                            />
+                        )}
+                    />
+
                 </div>
 
                 {reci ? (<div className={classes.Details}>
@@ -164,6 +210,52 @@ const CreateOrder = () => {
                 </div>
                 ) : null}
             </div>
+        </div>
+    ) : (
+        <div>
+            <Box width="100%" display="flex" justifyContent="center" p={2}>
+                <h1>Order Created</h1>
+            </Box>
+            <div className={classes.RecipientDetails}>
+                <h2>Recipient: {props.location.state.order.recipient.name} {props.location.state.order.recipient.contact} | {props.location.state.order.recipient.country}</h2>
+                <p>Total Weight: {Number(props.location.state.total_weight).toFixed(2)}</p>
+                <p>Total Packages: {props.location.state.total_packages}</p>
+                <p>Insurance Cost: {props.location.state.insurance_cost} (built in to rates below)</p>
+            </div>
+            <p>Shipment contents: </p>
+            <TableContainer component={Paper}>
+                <Table aria-label="simple table">
+                    <TableHead>
+                        <TableRow>
+                            <TableCell align="center">Item Name</TableCell>
+                            <TableCell align="center">Item #</TableCell>
+                            <TableCell align="center">Description</TableCell>
+                            <TableCell align="center"># (Cases)</TableCell>
+                            <TableCell align="center"># (Units)</TableCell>
+                        </TableRow>
+                    </TableHead>
+                    <TableBody>
+                        {lineItems.length > 0 ? (
+                            lineItems.map(line => (
+                                <TableRow key={line._id}>
+                                    <TableCell align="center">{line.item.name} s</TableCell>
+                                    <TableCell align="center">{line.item.number}</TableCell>
+                                    <TableCell align="center">{line.item.description}</TableCell>
+                                    <TableCell align="center">{line.quantity_cases}</TableCell>
+                                    <TableCell align="center">{line.quantity_units}</TableCell>
+                                </TableRow>
+                            ))
+                        ) : <p>lines are empty</p>}
+
+                    </TableBody>
+                </Table>
+            </TableContainer>
+            <Box width="100%" display="flex" justifyContent="center" >
+                <p>Your order has been successfully entered into the system and is pending shipment.</p>
+            </Box>
+            <Box width="100%" display="flex" justifyContent="center" p={2}>
+                <Button variant="contained" color="primary" style={{ marginRight: '1rem' }} onClick={() => history.push('/order/add-update')}>Create another New Order</Button>
+            </Box>
         </div>
     )
 }
