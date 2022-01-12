@@ -57,7 +57,7 @@ const ShipMethod = () => {
             // history.push('/order?page=1')
             history.push('/order/add-update', 
                 { 
-                    shipConfirmation: true, 
+                    shipConfirmation: 'orderCreated', 
                     order: location.state.order,
                     total_packages: location.state.total_packages,
                     total_weight: location.state.total_weight,

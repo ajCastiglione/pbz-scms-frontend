@@ -10,6 +10,11 @@ h2{
     font-weight: 100;
 }
 
+.strong{
+    color: black;
+    font-family:sans-serif;
+}
+
 .Recipient{
     margin-top: 1rem;
     display: flex;
@@ -36,6 +41,19 @@ h2{
         font-weight: 600;
         margin-left: 1rem;
     }
+}
 
+.LABEL {
+    color: #333;
+    background-color: #ddd;
+    display: inline-block;
+    padding: 6px 12px;
+    text-align: center;
+    white-space: nowrap;
+    touch-action: manipulation;
 
+    cursor: pointer;
+    border: 1px solid #aaa;
+    border-radius: 4px;
+    text-decoration: none;
 }

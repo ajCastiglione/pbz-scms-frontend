@@ -1,10 +1,5 @@
 // React Imports
-import React, { useEffect, useState, useRef } from 'react';
-// Redux Imports
-import { useSelector, useDispatch } from 'react-redux';
-import * as actions from '../../../store/actions/index'
-// React- router imports
-import { useHistory } from 'react-router';
+import React, { useEffect, useState, Fragment } from 'react';
 // Styles
 import classes from './ExportOrder.module.scss';
 // Material UI
@@ -12,6 +7,10 @@ import { makeStyles } from '@material-ui/core/styles';
 import Button from '@material-ui/core/Button';
 import TextField from '@material-ui/core/TextField';
 import Autocomplete from '@material-ui/lab/Autocomplete';
+import { MuiPickersUtilsProvider } from '@material-ui/pickers';
+import { KeyboardDatePicker } from "@material-ui/pickers";
+import DateFnsUtils from '@date-io/date-fns';
+
 import { CircularProgress } from '@material-ui/core';
 import { CSVLink } from 'react-csv';
 
@@ -59,21 +58,27 @@ const dateOptions = [
                     ];
 
 const ExportOrder = () => {
-    // Hooks consts
-    const matClasses = useStyles();
-    const dispatch = useDispatch();
-    const history = useHistory();
-    // State consts
 
     const [code, setCode] = useState(0);
     const [open, setOpen] = useState(false);
     const [options, setOptions] = useState([]);
     const [fileData, setFileData] = useState();
+    const [datePickerStartOpened, setDatePickerStartOpened] = useState(false);
+    const [datePickerEndOpened, setDatePickerEndOpened] = useState(false);
     const [bDownloadable, setDownloadable] = useState(false);
-
+    const [customRange, setCustomRange] = useState(false);
     const loading = open && options.length === 0;
+    const [dateStart, setDateStart] = useState(new Date());
+    const [dateEnd, setDateEnd] = useState(new Date());
 
     const csvLink = React.createRef();
+
+    useEffect(() => {
+        const currentDate = Date.now()
+        const dateBegin = new Date(currentDate - 2592000000)
+        setDateStart(dateBegin)
+        setDateEnd(currentDate)
+    }, [])
 
     useEffect(() => {
         let active = true;
@@ -106,27 +111,52 @@ const ExportOrder = () => {
         }
     }, [bDownloadable]);
 
+    useEffect(() => {
+        if(code == -2) {
+            setCustomRange(true);
+        } else setCustomRange(false);
+    }, [code]);
 
     const exportOrders = () => {
 
         if(code !== 0) {
             axios.get(`/order/export?filter=${code}`)
             .then(res => {
+                
                 setFileData(res.data)
                 setDownloadable(true);
             })
             .catch(err => {
-                // window.alert(err.response.data.message)
+                window.alert(err.response.data.message)
             })
         }
     }
 
-    const dateOptionSelected = (e) => {
-        if(e !== null) setCode(e.code)
-        else setCode(0)
+    const handleChange = (event, value) => value !== null ? setCode(value.code) : setCode(0);
+
+    const dateStartChanged = (date, e) => {
+        if (e && typeof e.preventDefault === 'function') {
+            e.preventDefault();
+        }
+        setDateStart(date);
+        setDatePickerStartOpened(false);
     }
 
-    const handleChange = (event, value) => dateOptionSelected(value);
+    const dateEndChanged = (date, e) => {
+        if (e && typeof e.preventDefault === 'function') {
+            e.preventDefault();
+        }
+        setDateEnd(date);
+        setDatePickerEndOpened(false);
+    }
+
+    const requestStartPickerOpen = () => {
+        setDatePickerStartOpened(true);
+    }
+
+    const requestEndPickerOpen = () => {
+        setDatePickerEndOpened(true);
+    }
 
     return (
         <div className={classes.Container}>
@@ -165,6 +195,31 @@ const ExportOrder = () => {
                             />
                         )}
                     />
+
+                    <br></br>
+                    {customRange ? (
+                        <MuiPickersUtilsProvider utils={DateFnsUtils}>
+                            
+                            
+                            <Fragment>
+                                <KeyboardDatePicker
+                                    clearable
+                                    value={dateStart}
+                                    placeholder="2018/10/10"
+                                    onChange={date => dateStartChanged(date)}
+                                    format="yyyy-MM-dd"
+                                />
+
+                                <KeyboardDatePicker
+                                    placeholder="2018/10/10"
+                                    value={dateEnd}
+                                    onChange={date => dateEndChanged(date)}
+                                    format="yyyy-MM-dd"
+                                />
+                            </Fragment>
+                        </MuiPickersUtilsProvider>
+                    ): <div></div>}
+                    
 
                 </div>
             </div>

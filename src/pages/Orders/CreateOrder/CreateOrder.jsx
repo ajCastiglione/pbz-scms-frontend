@@ -1,7 +1,7 @@
 // React Imports
 import React, { useEffect, useState } from 'react';
 // Redux Imports
-import { useSelector, useDispatch } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import * as actions from '../../../store/actions/index'
 // React- router imports
 import { useHistory } from 'react-router';
@@ -34,14 +34,6 @@ const useStyles = makeStyles((theme) => ({
         marginTop: theme.spacing(2),
     },
 }));
-
-  
-function sleep(delay = 0) {
-    return new Promise((resolve) => {
-        setTimeout(resolve, delay);
-    });
-}
-
     
 const CreateOrder = props => {
     // Hooks consts
@@ -53,16 +45,6 @@ const CreateOrder = props => {
     const [open, setOpen] = React.useState(false);
     const [options, setOptions] = React.useState([]);
     const loading = open && options.length === 0;
-
-    // const [page, setPage] = useState(1)
-  
-    // // Redux State getters
-    // const recipients = useSelector(state => state.recipients.recipients)
-    // const pages = useSelector(state => Math.ceil(state.recipients.total / 10))
-    // useEffect hook to Fetch recipients
-    // useEffect(() => {
-    //     dispatch(actions.getRecipients(page))
-    // }, [page])
 
     useEffect(() => {
 
@@ -121,19 +103,20 @@ const CreateOrder = props => {
 
     const handleChange = (event, value) => setSelectedRecipients(value);
 
-    let shipConfirmation = true;
+    let shipConfirmation = 'default';
     let lineItems = [];
 
     console.log('States=>', props.location);
     if(props.location.state === undefined || props.location.state === null) {
-        shipConfirmation = false;
+        shipConfirmation = 'default';
     } else {
-        shipConfirmation = (props.location.state === null && props.location.state.shipConfirmation === null) ? 0 : props.location.state.shipConfirmation;
+        shipConfirmation = (props.location.state === null && props.location.state.shipConfirmation === null) ? 'default' : props.location.state.shipConfirmation;
         lineItems = props.location.state.lineItems;
     }
 
 
-    return !shipConfirmation ? (
+    return shipConfirmation === 'default' ? (
+        //Create order page
         <div className={classes.Container}>
             <Button variant="contained" color="primary" onClick={goCreateRec}>Create New Recipient</Button>
             <div className={classes.Recipient}>
@@ -142,7 +125,7 @@ const CreateOrder = props => {
                 <div className={classes.menus}>
 
                     <Autocomplete
-                        id="asyncAutocomplete"
+                        id="autoRecipientSelect"
                         sx={{ width: 300 }}
                         open={open}
                         onOpen={() => {
@@ -211,7 +194,8 @@ const CreateOrder = props => {
                 ) : null}
             </div>
         </div>
-    ) : (
+    ) : shipConfirmation === 'orderCreated' ? (
+        //The confirmation page showing after submittiong of order
         <div>
             <Box width="100%" display="flex" justifyContent="center" p={2}>
                 <h1>Order Created</h1>
@@ -255,9 +239,42 @@ const CreateOrder = props => {
             </Box>
             <Box width="100%" display="flex" justifyContent="center" p={2}>
                 <Button variant="contained" color="primary" style={{ marginRight: '1rem' }} onClick={() => history.push('/order/add-update')}>Create another New Order</Button>
+                <Button variant="contained" color="secondary" style={{ marginRight: '1rem' }} onClick={() => history.push('/order/?page=1')}>No thanks</Button>
             </Box>
         </div>
-    )
+    ) : 
+    <div>
+        { props.location.state.type === 'pickRate' ? (props.location.state.data.labels.length > 0 ? ( 
+            //Shipping Label Page
+            <TableContainer component={Paper}>
+                <Table aria-label="simple table">
+                    <TableHead>
+                        <TableRow>
+                            <TableCell align="center"><b>Box #</b></TableCell>
+                            <TableCell align="center"><b>Weight (pounds)</b></TableCell>
+                            <TableCell align="center"><b>Image (PNG)</b></TableCell>
+                            <TableCell align="center"><b>PDF</b></TableCell>
+                            <TableCell align="center"><b>ZPL (Zebra)</b></TableCell>
+                        </TableRow>
+                    </TableHead>
+                    <TableBody>
+                        { props.location.state.data.labels.length > 0 ? (
+                            props.location.state.data.labels.map(function(label,i) {
+                                return (<TableRow key={i}>
+                                    <TableCell align="center">{i+1}</TableCell>
+                                    <TableCell align="center">{label.weight}</TableCell>
+                                    <TableCell align="center"><a className={classes.LABEL} href={label.label_url} target='_blank' role='button'>PNG</a></TableCell>
+                                    <TableCell align="center"><a className={classes.LABEL} href={label.label_pdf_url} target='_blank' role='button'>PDF</a></TableCell>
+                                    <TableCell align="center"><a className={classes.LABEL} href={label.label_zpl_url} target='_blank' role='button'>ZPL</a></TableCell>
+                                </TableRow>)
+                            })
+                        ) : <p>lines are empty</p>}
+
+                    </TableBody>
+                </Table>
+            </TableContainer>): <p>No Shippment Labels</p>) : 
+        <div><p className={classes.strong}>As this order was shipped manually there are no labels to print from here.</p></div>}
+    </div>
 }
 
 export default CreateOrder

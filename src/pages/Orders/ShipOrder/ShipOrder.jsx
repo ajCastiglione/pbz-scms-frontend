@@ -71,14 +71,19 @@ const ShipOrder = () => {
             shipment_id: location.state.shipment_id,
             rateId: rate.id
         }
-        axios.post('https://scms-api.herokuapp.com/order/add-update/do-ship', data)
+        // axios.post('https://scms-api.herokuapp.com/order/add-update/do-ship', data)
+        axios.post('http://localhost:3000/order/add-update/do-ship', data)
             .then(res => {
-                history.push('/')
+                history.push('/order/add-update', 
+                        {
+                            shipConfirmation: 'shipped',
+                            type: 'pickRate',
+                            data: res.data
+                        })
             })
             .catch(err => {
                 window.alert(err.response.data.message)
             })
-
     }
 
     const pickManual = () => {
@@ -89,9 +94,14 @@ const ShipOrder = () => {
             tracking: tracking,
             box: newData
         }
-        axios.post('https://scms-api.herokuapp.com/order/add-update/do-ship', data)
+        // axios.post('https://scms-api.herokuapp.com/order/add-update/do-ship', data)
+        axios.post('http://localhost:3000/order/add-update/do-ship', data)
             .then(res => {
-                history.push('/order?page=1')
+                history.push('/order/add-update', 
+                        {
+                            shipConfirmation: 'shipped',
+                            type: 'manual'
+                        })
             })
             .catch(err => {
                 window.alert(err.response.data.message)
@@ -152,15 +162,15 @@ const ShipOrder = () => {
                                     {rate.service}<br />
                                     {
                                         (() => {
-                                            if (rate.service === 'FEDEX_EXPRESS_SAVER')
+                                            if (rate.service.toUpperCase() === 'FEDEX_EXPRESS_SAVER')
                                                 return '3rd party billing: 308754227'
-                                            if (rate.service === 'FEDEX_GROUND')
+                                            if (rate.service.toUpperCase() === 'FEDEX_GROUND')
                                                 return 'Bill Sender 291480179'
-                                            if (location.state.order.user.username === 'Buffalofoodproducts.com')
+                                            if (location.state.order.user.username.toLowerCase() === 'buffalofoodproducts.com')
                                                 return '3rd party billing: 210128980'
-                                            if (rate.carrier === 'FedEx' && (location.state.order.requested_service === 'FedExMediumBox' || location.state.order.requested_service === 'FedExSmallBox' || location.state.order.requested_service === 'FedExPak' || location.state.order.requested_service === 'FedExEnvelope') && rate.custom_predefined_package)
+                                            if (rate.carrier.toUpperCase() === 'FEDEX' && (location.state.order.requested_service.toUpperCase() === 'FEDEXMEDIUMBOX' || location.state.order.requested_service.toUpperCase() === 'FEDEXSMALLBOX' || location.state.order.requested_service.toUpperCase() === 'FEDEXPAK' || location.state.order.requested_service.toUpperCase() === 'FEDEXENVELOPE') && rate.custom_predefined_package)
                                                 return 'BillSender 242823303'
-                                            if (rate.carrier === 'FedEx')
+                                            if (rate.carrier.toUpperCase() === 'FEDEX')
                                                 return '3rd party billing: 210128980'
                                             else
                                                 return 'No 3rd party billing option set'
@@ -169,7 +179,15 @@ const ShipOrder = () => {
                                 </TableCell>
                                 <TableCell align="center">{Number(rate.list_rate) + Number(location.state.order.insurance_value)} {rate.list_currency}</TableCell>
                                 <TableCell align="center">{Number(rate.retail_rate) + Number(location.state.order.insurance_value)} {rate.list_currency}</TableCell>
-                                <TableCell align="center"><Button variant="contained" onClick={e => pickRate(e, rate)}>Pick this rate</Button></TableCell>
+                                
+                                {location.state.order.requested_service === rate.service ?
+                                    <TableCell align="center"><Button variant="contained" color="primary" onClick={e => pickRate(e, rate)}>Pick this rate</Button></TableCell> :
+                                    <TableCell align="center"><Button variant="contained" onClick={e => pickRate(e, rate)}>Pick this rate</Button></TableCell>
+                                }
+                                 
+                                
+                                
+                                
                             </TableRow>
                         ))}
                     </TableBody>
