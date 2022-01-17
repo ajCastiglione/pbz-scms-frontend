@@ -71,8 +71,8 @@ const ShipOrder = () => {
             shipment_id: location.state.shipment_id,
             rateId: rate.id
         }
-        // axios.post('https://scms-api.herokuapp.com/order/add-update/do-ship', data)
-        axios.post('http://localhost:3000/order/add-update/do-ship', data)
+
+        axios.post(`${process.env.REACT_APP_API_URL}/order/add-update/do-ship`, data)
             .then(res => {
                 history.push('/order/add-update', 
                         {
@@ -94,8 +94,7 @@ const ShipOrder = () => {
             tracking: tracking,
             box: newData
         }
-        // axios.post('https://scms-api.herokuapp.com/order/add-update/do-ship', data)
-        axios.post('http://localhost:3000/order/add-update/do-ship', data)
+        axios.post(`${process.env.API_URL}/order/add-update/do-ship`, data)
             .then(res => {
                 history.push('/order/add-update', 
                         {

@@ -196,37 +196,39 @@ const CreateOrder = props => {
         </div>
     ) : shipConfirmation === 'orderCreated' ? (
         //The confirmation page showing after submittiong of order
-        <div>
-            <Box width="100%" display="flex" justifyContent="center" p={2}>
+        <div className={classes.RecipientDetails}>
+            <div >
                 <h1>Order Created</h1>
-            </Box>
-            <div className={classes.RecipientDetails}>
-                <h2>Recipient: {props.location.state.order.recipient.name} {props.location.state.order.recipient.contact} | {props.location.state.order.recipient.country}</h2>
-                <p>Total Weight: {Number(props.location.state.total_weight).toFixed(2)}</p>
-                <p>Total Packages: {props.location.state.total_packages}</p>
-                <p>Insurance Cost: {props.location.state.insurance_cost} (built in to rates below)</p>
+                <div>
+                    <h3>Recipient: {props.location.state.order.recipient.name} {props.location.state.order.recipient.contact} | {props.location.state.order.recipient.country}</h3>
+                    <span>Total Weight: {Number(props.location.state.total_weight).toFixed(2)}</span><br></br>
+                    <span>Total Packages: {props.location.state.total_packages}</span><br></br>
+                    <span>Insurance Cost: {props.location.state.insurance_cost} (built in to rates below)</span><br></br>
+                </div>
+
+                <p>Shipment contents: </p>
+
             </div>
-            <p>Shipment contents: </p>
             <TableContainer component={Paper}>
                 <Table aria-label="simple table">
                     <TableHead>
                         <TableRow>
-                            <TableCell align="center">Item Name</TableCell>
-                            <TableCell align="center">Item #</TableCell>
-                            <TableCell align="center">Description</TableCell>
-                            <TableCell align="center"># (Cases)</TableCell>
-                            <TableCell align="center"># (Units)</TableCell>
+                            <TableCell align="left"><strong>Item Name</strong></TableCell>
+                            <TableCell align="left"><strong>Item #</strong></TableCell>
+                            <TableCell align="left"><strong>Description</strong></TableCell>
+                            <TableCell align="left"><strong># (Cases)</strong></TableCell>
+                            <TableCell align="left"><strong># (Units)</strong></TableCell>
                         </TableRow>
                     </TableHead>
                     <TableBody>
                         {lineItems.length > 0 ? (
                             lineItems.map(line => (
                                 <TableRow key={line._id}>
-                                    <TableCell align="center">{line.item.name} s</TableCell>
-                                    <TableCell align="center">{line.item.number}</TableCell>
-                                    <TableCell align="center">{line.item.description}</TableCell>
-                                    <TableCell align="center">{line.quantity_cases}</TableCell>
-                                    <TableCell align="center">{line.quantity_units}</TableCell>
+                                    <TableCell align="left">{line.item.name} s</TableCell>
+                                    <TableCell align="left">{line.item.number}</TableCell>
+                                    <TableCell align="left">{line.item.description}</TableCell>
+                                    <TableCell align="left">{line.quantity_cases}</TableCell>
+                                    <TableCell align="left">{line.quantity_units}</TableCell>
                                 </TableRow>
                             ))
                         ) : <p>lines are empty</p>}
@@ -234,12 +236,9 @@ const CreateOrder = props => {
                     </TableBody>
                 </Table>
             </TableContainer>
-            <Box width="100%" display="flex" justifyContent="center" >
                 <p>Your order has been successfully entered into the system and is pending shipment.</p>
-            </Box>
-            <Box width="100%" display="flex" justifyContent="center" p={2}>
-                <Button variant="contained" color="primary" style={{ marginRight: '1rem' }} onClick={() => history.push('/order/add-update')}>Create another New Order</Button>
-                <Button variant="contained" color="secondary" style={{ marginRight: '1rem' }} onClick={() => history.push('/order/?page=1')}>No thanks</Button>
+            <Box width="100%" display="flex" justifyContent="left" p={0}>
+                <Button variant="outlined" color="primary" style={{ marginRight: '1rem' }} onClick={() => history.push('/order/add-update')}>Create another New Order</Button>
             </Box>
         </div>
     ) : 

@@ -43,6 +43,31 @@ h2{
     }
 }
 
+.RecipientDetails{
+    margin-top: 1rem;
+    display: flex;
+    flex-direction: column;
+    align-items: left;
+    padding-left: 7%;
+    padding-right: 7%;
+    h3 {
+        margin-bottom: 10px;
+    }
+    span{
+        font-family: "Helvetica Neue",Helvetica,Arial,sans-serif;
+        font-size: 14px;
+        line-height: 1.42857143;
+        color: #333;
+    }
+
+    p{
+        font-family: "Helvetica Neue",Helvetica,Arial,sans-serif;
+        font-size: 14px;
+        line-height: 1.42857143;
+        color: #333;
+    }
+}
+
 .LABEL {
     color: #333;
     background-color: #ddd;
