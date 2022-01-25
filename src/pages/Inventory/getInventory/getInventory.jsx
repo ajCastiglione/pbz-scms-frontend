@@ -40,7 +40,7 @@ const GetInventory = () => {
     const presentRows = [];
     rows.forEach(row => {
         presentRows.push({
-            id: row._id,
+            id: row.id,
             edit: 'Edit',
             name: row.name,
             item: row.number,
@@ -65,7 +65,7 @@ const GetInventory = () => {
     }
 
     const editEnventory = (id) => {
-        const filteredInv = rows.filter(row => row._id === id);
+        const filteredInv = rows.filter(row => row.id === id);
         const inv = filteredInv[0]
         history.push(`${route.path}add-update/${id}`, inv)
     }

@@ -1,7 +1,7 @@
 // React Imports
 import React, { useEffect, useState } from 'react';
 // Redux Imports
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import * as actions from '../../../store/actions/index'
 // React- router imports
 import { useHistory } from 'react-router';
@@ -40,11 +40,24 @@ const CreateOrder = props => {
     const matClasses = useStyles();
     const dispatch = useDispatch();
     const history = useHistory();
+
+    const recipient = useSelector(state => state.recipients.recipient)
+
     // State consts
-    const [reci, setReci] = useState(null);
+    const [reci, setReci] = useState(recipient);
     const [open, setOpen] = React.useState(false);
     const [options, setOptions] = React.useState([]);
     const loading = open && options.length === 0;
+    const inputRef = React.createRef();
+
+    async function searchRecipients(q) {
+        try {
+            const response = await axios.get(`/recipient/api/search?q=${q}`)
+            setOptions(response.data.data)
+        } catch (error) {
+            setOptions([])
+        }
+    }
 
     useEffect(() => {
 
@@ -54,16 +67,9 @@ const CreateOrder = props => {
             return undefined;
         }
 
-        async function searchRecipients() {
-            try {
-                const response = await axios.get('/recipient/api/search')
-                setOptions(response.data.data)
-            } catch (error) {
-                setOptions([])
-            }
-        }
-
-        searchRecipients()
+        setTimeout(() => {
+            searchRecipients('')
+        }, 500);
 
         return () => {
             active = false;
@@ -77,7 +83,7 @@ const CreateOrder = props => {
     }, [open]);
 
     const goCreateRec = () => {
-        history.push('/recipient/add-update/null')
+        history.push('/recipient/add-update/null', {recipient: null, createOrder: 1})
     }
 
     // Function to create order and save the response then navigate to next page
@@ -88,7 +94,7 @@ const CreateOrder = props => {
             .then(res => {
                 history.push('/add-order', {
                     ...reci,
-                    orderId: res.data.data._id
+                    orderId: res.data.data.id
                 })
             })
             .catch(err => {
@@ -97,7 +103,7 @@ const CreateOrder = props => {
     }
 
     const setSelectedRecipients = (e) => {
-        console.log(e)
+        console.log('Event => ',e);
         setReci(e);
     }
 
@@ -106,12 +112,17 @@ const CreateOrder = props => {
     let shipConfirmation = 'default';
     let lineItems = [];
 
-    console.log('States=>', props.location);
+    // console.log('States=>', props.location);
     if(props.location.state === undefined || props.location.state === null) {
         shipConfirmation = 'default';
     } else {
         shipConfirmation = (props.location.state === null && props.location.state.shipConfirmation === null) ? 'default' : props.location.state.shipConfirmation;
         lineItems = props.location.state.lineItems;
+    }
+
+    const handleKeyPress = (e) => {
+        
+        setTimeout(() => searchRecipients(e.target.value), 1000);
     }
 
 
@@ -134,7 +145,8 @@ const CreateOrder = props => {
                         onClose={() => {
                             setOpen(false);
                         }}
-                        onChange={handleChange}                  
+                        onChange={handleChange}
+                        value={reci}
                         isOptionEqualToValue={(option, value) => option.name === value.name}
                         getOptionLabel={(option) => option.name}
                         options={options}
@@ -142,7 +154,9 @@ const CreateOrder = props => {
                         renderInput={(params) => (
                             <TextField
                                 {...params}
+                                ref = {inputRef}
                                 label="Search Recipients"
+                                onChange={handleKeyPress}
                                 InputProps={{
                                     ...params.InputProps,
                                     endAdornment: (
@@ -158,7 +172,7 @@ const CreateOrder = props => {
 
                 </div>
 
-                {reci ? (<div className={classes.Details}>
+                {(reci && reci.name) ? (<div className={classes.Details}>
                     <div className={classes.Details__box}>
                         <p>Name: <span>{reci.name}</span></p>
                     </div>
@@ -189,7 +203,7 @@ const CreateOrder = props => {
                     <div className={classes.Details__box}>
                         <p>Country: <span>{reci.country}</span></p>
                     </div>
-                    <Button variant="contained" color="primary" onClick={() => goOrders(reci._id)}>go</Button>
+                    <Button variant="contained" color="primary" onClick={() => goOrders(reci.id)}>go</Button>
                 </div>
                 ) : null}
             </div>
@@ -223,10 +237,10 @@ const CreateOrder = props => {
                     <TableBody>
                         {lineItems.length > 0 ? (
                             lineItems.map(line => (
-                                <TableRow key={line._id}>
-                                    <TableCell align="left">{line.item.name} s</TableCell>
-                                    <TableCell align="left">{line.item.number}</TableCell>
-                                    <TableCell align="left">{line.item.description}</TableCell>
+                                <TableRow key={line.id}>
+                                    <TableCell align="left">{line.inventory.name} s</TableCell>
+                                    <TableCell align="left">{line.inventory.number}</TableCell>
+                                    <TableCell align="left">{line.inventory.description}</TableCell>
                                     <TableCell align="left">{line.quantity_cases}</TableCell>
                                     <TableCell align="left">{line.quantity_units}</TableCell>
                                 </TableRow>
@@ -240,6 +254,7 @@ const CreateOrder = props => {
             <Box width="100%" display="flex" justifyContent="left" p={0}>
                 <Button variant="outlined" color="primary" style={{ marginRight: '1rem' }} onClick={() => history.push('/order/add-update')}>Create another New Order</Button>
             </Box>
+            <br></br>
         </div>
     ) : 
     <div>
@@ -271,8 +286,8 @@ const CreateOrder = props => {
 
                     </TableBody>
                 </Table>
-            </TableContainer>): <p>No Shippment Labels</p>) : 
-        <div><p className={classes.strong}>As this order was shipped manually there are no labels to print from here.</p></div>}
+            </TableContainer>): <p>No Shippment Labels</p>) :  
+        (<div><p className={classes.strong}>As this order was shipped manually there are no labels to print from here.</p></div>)}
     </div>
 }
 

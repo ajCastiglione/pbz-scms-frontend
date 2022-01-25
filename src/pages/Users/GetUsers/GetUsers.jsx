@@ -64,10 +64,10 @@ const GetUsers = () => {
     if (rows) {
         rows.forEach(row => {
             presentRows.push({
-                id: row._id,
+                id: row.id,
                 edit: 'Edit',
                 adjust: 'adjust',
-                showId: row._id,
+                showId: row.id,
                 company: row.company,
                 firstName: row.first_name,
                 lastName: row.last_name,
@@ -78,7 +78,7 @@ const GetUsers = () => {
     }
 
     const editUser = (id) => {
-        const filterdUser = rows.filter(row => row._id === id)
+        const filterdUser = rows.filter(row => row.id === id)
         history.push(`${route.path}add-update/${id}`, filterdUser[0])
     }
 

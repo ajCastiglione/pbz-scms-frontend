@@ -64,7 +64,7 @@ const ShipOrder = () => {
 
     const pickRate = (e, rate) => {
         const data = {
-            orderId: location.state.order._id,
+            orderId: location.state.order.id,
             actual_service: rate.service,
             actual_carrier: rate.carrier,
             box: newData,
@@ -88,7 +88,7 @@ const ShipOrder = () => {
 
     const pickManual = () => {
         const data = {
-            orderId: location.state.order._id,
+            orderId: location.state.order.id,
             actual_service: service,
             actual_carrier: carrier,
             tracking: tracking,

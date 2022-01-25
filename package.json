@@ -1,5 +1,4 @@
 {
-  "homepage": "http://james-collin.github.io/PriorityBiz-SCMS-Frontend",
   "name": "priority-biz",
   "version": "0.1.0",
   "private": true,
@@ -13,6 +12,7 @@
     "@testing-library/user-event": "^12.8.3",
     "axios": "^0.21.1",
     "date-fns": "^2.0.0-beta.5",
+    "dotenv": "^12.0.4",
     "node-sass": "^6.0.1",
     "query-string": "^7.0.1",
     "react": "^17.0.2",

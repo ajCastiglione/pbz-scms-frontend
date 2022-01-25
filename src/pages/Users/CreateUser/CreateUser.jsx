@@ -49,7 +49,7 @@ const CreateUser = () => {
             confirmed_at: date
         }
         if (location.state) {
-            userData = { ...userData, id: location.state._id };
+            userData = { ...userData, id: location.state.id };
             dispatch(actions.addUser(userData))
         } else {
             dispatch(actions.addUser(userData))

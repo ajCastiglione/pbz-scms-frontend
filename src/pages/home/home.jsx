@@ -91,7 +91,7 @@ const Home = (props) => {
 
     const goEdit = (e, order) => {
         const data = {
-            orderId: order._id,
+            orderId: order.id,
             name: order.recipient.name,
             contact: order.recipient.contact,
             country: order.recipient.country
@@ -188,9 +188,9 @@ const Home = (props) => {
                         {data.length > 0 ? (
                             data.map(o => (
                                 
-                                <TableRow key={o._id}>
+                                <TableRow key={o.id}>
                                     <TableCell align="center"><Button variant="contained" color="primary" onClick={(e) => goEdit(e, o)}>Edit</Button></TableCell>
-                                    <TableCell align="center" style={{ maxWidth: '8rem' }}><p style={{ overflow: 'scroll', overflowY: 'hidden' }}>{o._id}</p></TableCell>
+                                    <TableCell align="center" style={{ maxWidth: '8rem' }}><p style={{ overflow: 'scroll', overflowY: 'hidden' }}>{o.id}</p></TableCell>
                                     <TableCell align="center">
                                         {o.recipient.name} {o.recipient.contact}
                                         { (o.recipient.country !== 'US' && o.recipient.country !== 'United States') ? <><br /><strong>International? {o.recipient.country}</strong></> : null}
@@ -211,9 +211,9 @@ const Home = (props) => {
                                                 return 'Cancelled'
                                         })()
                                     }</TableCell>
-                                    <TableCell align="center"><Link style={{ textDecoration: 'none', color: 'blue' }} target="_blank" to={`/picking-slip/${o._id}`}>Packing Slip</Link></TableCell>
-                                    <TableCell align="center"><Link style={{ textDecoration: 'none', color: 'blue' }} target="_blank" to={`/picking-ticket/${o._id}`}>Pick Ticket</Link></TableCell>
-                                    {role === 'superadmin' || role === 'warehouse' ? <TableCell align="center"><Button variant="contained" color="primary" onClick={e => postShip(e, o._id)}>Ship</Button></TableCell> : null}
+                                    <TableCell align="center"><Link style={{ textDecoration: 'none', color: 'blue' }} target="_blank" to={`/picking-slip/${o.id}`}>Packing Slip</Link></TableCell>
+                                    <TableCell align="center"><Link style={{ textDecoration: 'none', color: 'blue' }} target="_blank" to={`/picking-ticket/${o.id}`}>Pick Ticket</Link></TableCell>
+                                    {role === 'superadmin' || role === 'warehouse' ? <TableCell align="center"><Button variant="contained" color="primary" onClick={e => postShip(e, o.id)}>Ship</Button></TableCell> : null}
                                     <TableCell align="center">{
                                         (() => {
                                             if (o.tracking && o.actual_carrier === 'FedEx')
@@ -226,7 +226,7 @@ const Home = (props) => {
                                         )()
                                     }</TableCell>
                                     <TableCell align="center">{o.customer_reference}</TableCell>
-                                    <TableCell align="center"><Button variant="contained" color={o.status === 3 ? 'primary' : 'secondary'} onClick={e => cancelOrder(e, o.status, o._id)}>{o.status === 3 ? 'Restore' : 'Cancel'}</Button></TableCell>
+                                    <TableCell align="center"><Button variant="contained" color={o.status === 3 ? 'primary' : 'secondary'} onClick={e => cancelOrder(e, o.status, o.id)}>{o.status === 3 ? 'Restore' : 'Cancel'}</Button></TableCell>
                                 </TableRow>
                             ))
                         ) : <p>lines are empty</p>}
@@ -255,7 +255,7 @@ const Home = (props) => {
                     <TableBody>
                         {lowStock.length > 0 ? (
                             lowStock.map(i => (
-                                <TableRow key={i._id}>
+                                <TableRow key={i.id}>
                                     <TableCell align="center">{i.name}</TableCell>
                                     <TableCell align="center">{i.number}</TableCell>
                                     <TableCell align="center">{i.case_quantity}</TableCell>
@@ -264,7 +264,7 @@ const Home = (props) => {
                                     <TableCell align="center" style={{backgroundColor: (i.qoh_case*i.case_quantity)+i.qoh_units < i.reorder_quantity ? 'red' : 'white'}}>
                                         {i.qoh_units}
                                     </TableCell>
-                                    <TableCell align="center"><Button variant="contained" onClick={e => split(e, i._id)}>Split</Button></TableCell>
+                                    <TableCell align="center"><Button variant="contained" onClick={e => split(e, i.id)}>Split</Button></TableCell>
                                     <TableCell align="center">{i.reorder_quantity}</TableCell>                                    
                                 </TableRow>
                             ))

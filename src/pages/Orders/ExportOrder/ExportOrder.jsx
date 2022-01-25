@@ -74,7 +74,7 @@ const ExportOrder = () => {
     const csvLink = React.createRef();
 
     useEffect(() => {
-        const currentDate = Date.now()
+        const currentDate = new Date()
         const dateBegin = new Date(currentDate - 2592000000)
         setDateStart(dateBegin)
         setDateEnd(currentDate)
@@ -120,15 +120,28 @@ const ExportOrder = () => {
     const exportOrders = () => {
 
         if(code !== 0) {
-            axios.get(`/order/export?filter=${code}`)
-            .then(res => {
-                
-                setFileData(res.data)
-                setDownloadable(true);
-            })
-            .catch(err => {
-                window.alert(err.response.data.message)
-            })
+            if (code == -2) {
+                axios.get(`/order/export?filter=${code}&&dateStart=${dateStart}&&dateEnd=${dateEnd}`)
+                .then(res => {
+                    
+                    setFileData(res.data)
+                    setDownloadable(true);
+                })
+                .catch(err => {
+                    window.alert(err.response.data.message)
+                })
+            } else {
+                axios.get(`/order/export?filter=${code}`)
+                .then(res => {
+                    
+                    setFileData(res.data)
+                    setDownloadable(true);
+                })
+                .catch(err => {
+                    window.alert(err.response.data.message)
+                })
+            }
+            
         }
     }
 

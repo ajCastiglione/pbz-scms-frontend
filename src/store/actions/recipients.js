@@ -56,13 +56,15 @@ export const getRecipients = (page) => {
 export const createRecipient = (data) => {
     return dispatch => {
         dispatch(createRecipientStart())
-        axios.post('/recipient/add-update', data)
-        .then(res => {
-            dispatch(createRecipientSuccess(res.data))
-        })
-        .catch(err => {
-            window.alert(err.response.data.message);
-            dispatch(createRecipientFailed(err.response))
-        })
+        if(data) {
+            axios.post('/recipient/add-update', data)
+            .then(res => {
+                dispatch(createRecipientSuccess(res.data))
+            })
+            .catch(err => {
+                window.alert(err.response.data.message);
+                dispatch(createRecipientFailed(err.response))
+            })
+        }
     }
 }

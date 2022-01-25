@@ -84,7 +84,7 @@ const CreateInventory = () => {
       ship_ready: isReady,
     };
     if (location.state) {
-      data = { ...data, id: location.state._id };
+      data = { ...data, id: location.state.id };
       dispatch(actions.editEnventory(data));
     } else {
       dispatch(actions.createInventory(data));

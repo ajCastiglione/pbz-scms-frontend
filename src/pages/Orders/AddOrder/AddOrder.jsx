@@ -48,9 +48,9 @@ const AddOrder = () => {
     const inventory = useSelector(state => state.inventory.inventory)
     // Refactoring lines to present
     const presentRows = [];
-    inventory.forEach(row => {
+    inventory.forEach(row => {        
         presentRows.push({
-            id: row._id,
+            id: row.id,
             name: row.name,
             item: row.number,
             caseQuantity: row.case_quantity,
@@ -86,13 +86,13 @@ const AddOrder = () => {
     const editCases = (e, id, type) => {
         if (type === 'quantity_cases') {
             setNewLines(newLines.map(line =>
-                line._id === id
+                line.id === id
                     ? { ...line, quantity_cases: e.target.value }
                     : line
             ))
         }else{
             setNewLines(newLines.map(line =>
-                line._id === id
+                line.id === id
                     ? { ...line, quantity_units: e.target.value }
                     : line
             ))
@@ -102,11 +102,11 @@ const AddOrder = () => {
 
     const saveOrder = (id) => {
         newLines.map(line => {
-            if (line._id === id) {
+            if (line.id === id) {
                 const data = {
                     quantity_cases: line.quantity_cases,
                     quantity_units: line.quantity_units,
-                    inventoryId: line.item._id,
+                    inventoryId: line.inventory.id,
                     orderId: location.state.orderId,
                 }
                 dispatch(actions.addInventory(data))
@@ -129,7 +129,9 @@ const AddOrder = () => {
             orderId: location.state.orderId
         })
             .then(res => {
+                
                 setNextPageLoading(false)
+                
                 if (res.data.shipRayes.length < 1) {
                     window.alert("Order can't be shipped (Wrong recipient info)")
                     return
@@ -166,18 +168,18 @@ const AddOrder = () => {
                             {lines.length > 0 ? (
                                 lines.map((row, i) => (
                                     <TableRow key={row.id}>
-                                        <TableCell align="center">{row.item.number}</TableCell>
-                                        <TableCell align="center">{row.item.name}</TableCell>
-                                        <TableCell align="center">{row.item.description}</TableCell>
+                                        <TableCell align="center">{row.inventory.number}</TableCell>
+                                        <TableCell align="center">{row.inventory.name}</TableCell>
+                                        <TableCell align="center">{row.inventory.description}</TableCell>
                                         <TableCell align="center">
-                                            <input type="number" style={{ width: '4rem' }} value={newLines[i]?.quantity_cases} onChange={e => editCases(e, row._id, 'quantity_cases')} />
+                                            <input type="number" style={{ width: '4rem' }} value={newLines[i]?.quantity_cases} onChange={e => editCases(e, row.id, 'quantity_cases')} />
                                         </TableCell>
                                         <TableCell align="center">
-                                            <input type="number" style={{ width: '4rem' }} value={newLines[i]?.quantity_units} onChange={e => editCases(e, row._id, 'quantity_units')} />
+                                            <input type="number" style={{ width: '4rem' }} value={newLines[i]?.quantity_units} onChange={e => editCases(e, row.id, 'quantity_units')} />
                                         </TableCell>
                                         <TableCell align="center">
-                                            <Button variant="contained" color="primary" style={{ marginRight: '1rem' }} onClick={() => saveOrder(row._id)}>Save</Button>
-                                            <Button variant="contained" color="secondary" onClick={() => removeOrder(row._id)}>Remove from Order</Button>
+                                            <Button variant="contained" color="primary" style={{ marginRight: '1rem' }} onClick={() => saveOrder(row.id)}>Save</Button>
+                                            <Button variant="contained" color="secondary" onClick={() => removeOrder(row.id)}>Remove from Order</Button>
                                         </TableCell>
                                         <TableCell></TableCell>
                                     </TableRow>
@@ -228,7 +230,7 @@ const AddOrder = () => {
                                     <TableCell align="center">{i.width}</TableCell>
                                     <TableCell align="center">{i.height}</TableCell>
                                     <TableCell align="center">{i.ship_ready ? 'Yes' : 'No'}</TableCell>
-                                    <TableCell align="center"><Button variant="contained" color="primary" onClick={(e) => addOrder(e, i._id)}>Add to Orders</Button></TableCell>
+                                    <TableCell align="center"><Button variant="contained" color="primary" onClick={(e) => addOrder(e, i.id)}>Add to Orders</Button></TableCell>
                                 </TableRow>
                             ))}
                         </TableBody>

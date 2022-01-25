@@ -121,7 +121,7 @@ const Upload = (props) => {
                     </TableHead>
                     <TableBody>
                         {data.length > 0 ? data.map((row) => (
-                            <TableRow key={row._id}>
+                            <TableRow key={row.id}>
                                 <TableCell align="center">{row.createdAt}</TableCell>
                                 <TableCell align="center">{row.user.username}</TableCell>
                                 <TableCell align="center" onClick={e => downloadFile(e, row)}><a target="_blank" href={`https://scms-api.herokuapp.com/${row.filename}`} rel="noreferrer">{row.filename}</a></TableCell>

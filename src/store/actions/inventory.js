@@ -40,8 +40,9 @@ export const getInventory = (page) => {
     return dispatch => {
         dispatch(fetchInventoryStart())
         axios.get(`/inventory/add-update?page=${page}`)
-        .then(res => {
+        .then(res => {            
             dispatch(fetchInventorySuccess(res.data))
+
         })
         .catch(err => {
             window.alert(err.response.data.message);

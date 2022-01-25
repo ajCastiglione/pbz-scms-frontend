@@ -53,7 +53,7 @@ const Sudo = () => {
                     className={matClasses.selectEmpty}
                 >
                     {users.map((user => (
-                        <MenuItem key={user._id} value={user._id}>{user.username}</MenuItem>
+                        <MenuItem key={user.id} value={user.id}>{user.username}</MenuItem>
                     )))}
                 </Select>
             </FormControl>

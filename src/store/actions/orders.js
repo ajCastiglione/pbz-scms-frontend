@@ -57,6 +57,7 @@ export const getOrderAndUpdate = (id) => {
 
 export const addInventory = (data) => {
     return dispatch => {
+        
         axios.post('/order/add-update/add-inventory', data)
         .then(res => {
             dispatch(getOrderAndUpdate(data.orderId))

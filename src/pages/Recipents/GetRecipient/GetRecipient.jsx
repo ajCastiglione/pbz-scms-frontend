@@ -38,7 +38,7 @@ const GetRecipient = () => {
     if(rows.length > 0){
         rows.forEach(row => {
             presentRows.push({
-                id: row._id,
+                id: row.id,
                 edit: 'Edit',
                 name: row.name,
                 contact: row.contact,
@@ -55,8 +55,8 @@ const GetRecipient = () => {
     }
 
     const editRecipient = (id) => {
-        const filteredRecipient = rows.filter(row => row._id === id)
-        history.push(`${route.path}add-update/${id}`, filteredRecipient[0])
+        const filteredRecipient = rows.filter(row => row.id === id)
+        history.push(`${route.path}add-update/${id}`, {recipient: filteredRecipient[0]})
     }
 
     return (

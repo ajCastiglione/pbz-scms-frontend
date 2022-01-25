@@ -5,7 +5,8 @@ const initialState = {
     total: 0,
     loading: false,
     message: '',
-    error: ''
+    error: '',
+    recipient: {}
 }
 
 const reducer = (state = initialState, action) => {
@@ -37,7 +38,8 @@ const reducer = (state = initialState, action) => {
                 ...state,
                 loading: false,
                 message: 'Recipient Created Successfully',
-                error: ''
+                error: '',
+                recipient: action.response.data
             }
         case actionTypes.CREATE_RECIPIENT_FAILED:
             return {

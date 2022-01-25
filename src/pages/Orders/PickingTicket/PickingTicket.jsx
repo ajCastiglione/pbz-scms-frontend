@@ -64,10 +64,10 @@ const PickingTicket = () => {
               <th># Units</th>
             </tr>
             {data.lineItem.map((line) => (
-              <tr key={line._id}>
-                <td>{line?.item?.name ?? ''}</td>
-                <td>{line?.item?.number ?? ''}</td>
-                <td>{line?.item?.description ?? ''}</td>
+              <tr key={line.id}>
+                <td>{line?.inventory?.name ?? ''}</td>
+                <td>{line?.inventory?.number ?? ''}</td>
+                <td>{line?.inventory?.description ?? ''}</td>
                 <td>{line?.quantity_cases ?? ''}</td>
                 <td>{line?.quantity_units ?? ''}</td>
               </tr>

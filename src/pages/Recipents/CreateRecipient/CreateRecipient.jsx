@@ -19,18 +19,19 @@ const CreateRecipient = () => {
     const location = useLocation();
     const history = useHistory();
     const dispatch = useDispatch()
+    
     // State consts
-    const [name, setName] = useState(location.state ? location.state.name : '');
-    const [contact, setContact] = useState(location.state ? location.state.contact : '');
-    const [phone, setPhone] = useState(location.state ? location.state.phone : '');
-    const [email, setEmail] = useState(location.state ? location.state.email : '');
-    const [street1, setStreet1] = useState(location.state ? location.state.street1 : '');
-    const [street2, setStreet2] = useState(location.state ? location.state.street2 : '');
-    const [city, setCity] = useState(location.state ? location.state.city : '');
-    const [state, setState] = useState(location.state ? location.state.state : '')
-    const [postal, setPostal] = useState(location.state ? location.state.postal : '');
-    const [country, setCountry] = useState(location.state ? location.state.country : '');
-
+    const [name, setName] = useState(location.state? (location.state.recipient ? location.state.recipient.name : '') : '');
+    const [contact, setContact] = useState(location.state? (location.state.recipient ? location.state.recipient.contact : '') : '');
+    const [phone, setPhone] = useState(location.state? (location.state.recipient ? location.state.recipient.phone : '') : '');
+    const [email, setEmail] = useState(location.state? (location.state.recipient ? location.state.recipient.email : '') : '');
+    const [street1, setStreet1] = useState(location.state? (location.state.recipient ? location.state.recipient.street1 : '') : '');
+    const [street2, setStreet2] = useState(location.state? (location.state.recipient ? location.state.recipient.street2 : '') : '');
+    const [city, setCity] = useState(location.state? (location.state.recipient ? location.state.recipient.city : '') : '');
+    const [state, setState] = useState(location.state? (location.state.recipient ? location.state.recipient.state : '') : '')
+    const [postal, setPostal] = useState(location.state? (location.state.recipient ? location.state.recipient.postal : '') : '');
+    const [country, setCountry] = useState(location.state? (location.state.recipient ? location.state.recipient.country : 'US') : 'US');
+    
     const createRecipient = (event) => {
         event.preventDefault();
         let data = {
@@ -45,10 +46,11 @@ const CreateRecipient = () => {
             postal,
             country
         }
-        if (location.state){
-            data = {...data, id: location.state._id};
+        if ((!location.state) || (!location.state.recipient)) {
             dispatch(actions.createRecipient(data))
-        }else{
+        }
+        else {
+            data = {...data, id: location.state.recipient.id};
             dispatch(actions.createRecipient(data))
         }
     }
@@ -57,7 +59,18 @@ const CreateRecipient = () => {
         history.goBack();
     }
     // Redux State getters
-    const message = useSelector(state => state.recipients.message)
+    const message = useSelector(state => {
+        if (state.recipients.message === 'Recipient Created Successfully')
+        {
+            if(!location.state) return state.recipients.message;
+            if(location.state.createOrder === 1) {
+                history.push('/order/add-update');
+                state.recipients.message = '';
+            }
+        }
+        return state.recipients.message
+    })
+
     const error = useSelector(state => state.recipients.error)
     const loading = useSelector(state => state.recipients.loading)
 

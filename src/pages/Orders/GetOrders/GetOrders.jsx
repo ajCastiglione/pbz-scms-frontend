@@ -110,7 +110,7 @@ const GetOrders = () => {
 
   const goEdit = (e, order) => {
     const data = {
-      orderId: order._id,
+      orderId: order.id,
       name: order?.recipient?.name ?? "",
       contact: order?.recipient?.contact ?? "",
       country: order?.recipient?.country ?? "",
@@ -125,7 +125,7 @@ const GetOrders = () => {
     }
     axios
       .post("/order/add-update/ship", { orderId: id })
-      .then((res) => {
+      .then((res) => {       
         history.push("ship-order", res.data);
       })
       .catch((err) => {
@@ -256,7 +256,7 @@ const GetOrders = () => {
             <TableBody>
               {orders.length > 0 ? (
                 orders.map((o) => (
-                  <TableRow key={o._id}>
+                  <TableRow key={o.id}>
                     <TableCell align="center">
                       <Button
                         variant="contained"
@@ -268,7 +268,7 @@ const GetOrders = () => {
                     </TableCell>
                     <TableCell align="center" style={{ maxWidth: "8rem" }}>
                       <p style={{ overflow: "scroll", overflowY: "hidden" }}>
-                        {o._id}
+                        {o.id}
                       </p>
                     </TableCell>
                     {o.recipient ? (
@@ -306,7 +306,7 @@ const GetOrders = () => {
                         : o.updatedAt.slice(0, 10)}
                     </TableCell>
                     <TableCell align="center">
-                      {o.shipped ? o.shipped.slice(0, 10) : null}
+                      {o.shippedAt ? o.shippedAt.slice(0, 10) : null}
                     </TableCell>
                     <TableCell align="center">
                       {(() => {
@@ -320,7 +320,7 @@ const GetOrders = () => {
                       <Link
                         style={{ textDecoration: "none", color: "blue" }}
                         target="_blank"
-                        to={`/picking-slip/${o._id}`}
+                        to={`/picking-slip/${o.id}`}
                       >
                         Packing Slip
                       </Link>
@@ -330,7 +330,7 @@ const GetOrders = () => {
                         <Link
                           style={{ textDecoration: "none", color: "blue" }}
                           target="_blank"
-                          to={`/picking-ticket/${o._id}`}
+                          to={`/picking-ticket/${o.id}`}
                         >
                           Pick Ticket
                         </Link>
@@ -341,7 +341,7 @@ const GetOrders = () => {
                         <Button
                           variant="contained"
                           color="primary"
-                          onClick={(e) => postShip(e, o._id, o)}
+                          onClick={(e) => postShip(e, o.id, o)}
                         >
                           Ship
                         </Button>
@@ -377,7 +377,7 @@ const GetOrders = () => {
                       <Button
                         variant="contained"
                         color={o.status === 3 ? "primary" : "secondary"}
-                        onClick={(e) => cancelOrder(e, o.status, o._id)}
+                        onClick={(e) => cancelOrder(e, o.status, o.id)}
                       >
                         {o.status === 3 ? "Restore" : "Cancel"}
                       </Button>

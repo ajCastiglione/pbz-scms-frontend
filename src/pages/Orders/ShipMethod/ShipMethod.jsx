@@ -42,7 +42,7 @@ const ShipMethod = () => {
 
     const submitShipment = () =>{
         const data = {
-            orderId: location.state.order._id,
+            orderId: location.state.order.id,
             requested_service: shippingMethod[1],
             requested_carrier: shippingMethod[0],
             signature_option: signature,
@@ -54,6 +54,7 @@ const ShipMethod = () => {
         }
         axios.post('/order/add-update/pick-rate', data)
         .then(res => {
+            
             // history.push('/order?page=1')
             history.push('/order/add-update', 
                 { 
@@ -111,10 +112,10 @@ const ShipMethod = () => {
                     <TableBody>
                         {lineItems.length > 0 ? (
                             lineItems.map(line => (
-                                <TableRow key={line._id}>
-                                    <TableCell align="center">{line.item.name} s</TableCell>
-                                    <TableCell align="center">{line.item.number}</TableCell>
-                                    <TableCell align="center">{line.item.description}</TableCell>
+                                <TableRow key={line.id}>
+                                    <TableCell align="center">{line.inventory.name} s</TableCell>
+                                    <TableCell align="center">{line.inventory.number}</TableCell>
+                                    <TableCell align="center">{line.inventory.description}</TableCell>
                                     <TableCell align="center">{line.quantity_cases}</TableCell>
                                     <TableCell align="center">{line.quantity_units}</TableCell>
                                 </TableRow>
@@ -153,7 +154,7 @@ const ShipMethod = () => {
 
                                     {listRate.length > 0 ? (
                                         listRate.map(rate => (
-                                            <TableRow key={rate._id}>
+                                            <TableRow key={rate.id}>
                                                 <TableCell align="center">
                                                     <input
                                                         type="radio"

@@ -29,7 +29,6 @@ const ImportRecipient = (props) => {
         form.append('uploads', selectedFile)
         axios.post(props.link, form)
         .then(res => {
-            console.log(res)
             if(res.data.fail){
                 setError(res.data.errors[0])
                 setLoading(false)
