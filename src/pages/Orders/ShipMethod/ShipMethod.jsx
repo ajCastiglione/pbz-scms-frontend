@@ -130,7 +130,7 @@ const ShipMethod = () => {
                                 {lineItems.length > 0 ? (
                                     lineItems.map(line => (
                                         <TableRow key={line.id}>
-                                            <TableCell align="center">{line.inventory.name} s</TableCell>
+                                            <TableCell align="center">{line.inventory.name}</TableCell>
                                             <TableCell align="center">{line.inventory.number}</TableCell>
                                             <TableCell align="center">{line.inventory.description}</TableCell>
                                             <TableCell align="center">{line.quantity_cases}</TableCell>

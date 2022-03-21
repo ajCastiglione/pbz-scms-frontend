@@ -58,7 +58,7 @@ export const authUser = (data) => {
     return dispatch => {
         dispatch(authStart())
 
-        axios.post(`${process.env.REACT_APP_API_URL}/auth/login`, data)
+        axios.post(`${process?.env.REACT_APP_API_URL}/auth/login`, data)
         .then(res => {
             const expirationDate = new Date(new Date().getTime() + res.data.data.token_expiresIn);
             localStorage.setItem('token', res.data.data.token);

@@ -198,7 +198,9 @@ const Home = (props) => {
                                     <TableCell align="center"><Button variant="contained" color="primary" onClick={(e) => goEdit(e, o)}>Edit</Button></TableCell>
                                     <TableCell align="center" style={{ maxWidth: '8rem' }}><p style={{ overflow: 'scroll', overflowY: 'hidden' }}>{o.id}</p></TableCell>
                                     <TableCell align="center">
-                                        {o.recipient.name} {o.recipient.contact}
+                                        {o.recipient.name}
+                                        <p style={{ fontWeight: "bold" }}> Contact: </p>
+                                         {o.recipient.contact}
                                         { (o.recipient.country !== 'US' && o.recipient.country !== 'United States') ? <><br /><strong>International? {o.recipient.country}</strong></> : null}
                                         {!o.recipient.phone || o.recipient.phone.length < 8 ? <><br /><span style={{ color: 'red' }}>No recipient phone number (or phone # too short)</span></> : null}
                                     </TableCell>

@@ -242,7 +242,7 @@ const CreateOrder = props => {
                         {lineItems.length > 0 ? (
                             lineItems.map(line => (
                                 <TableRow key={line.id}>
-                                    <TableCell align="left">{line.inventory.name} s</TableCell>
+                                    <TableCell align="left">{line.inventory.name}</TableCell>
                                     <TableCell align="left">{line.inventory.number}</TableCell>
                                     <TableCell align="left">{line.inventory.description}</TableCell>
                                     <TableCell align="left">{line.quantity_cases}</TableCell>

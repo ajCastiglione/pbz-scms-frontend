@@ -171,6 +171,11 @@ const ExportOrder = () => {
         setDatePickerEndOpened(true);
     }
 
+    const dateObj = new Date();
+    const month = dateObj.getUTCMonth() + 1; //months from 1-12
+    const day = dateObj.getUTCDate();
+    const year = dateObj.getUTCFullYear();
+
     return (
         <div className={classes.Container}>
             <div className={classes.Recipient}>
@@ -243,7 +248,7 @@ const ExportOrder = () => {
             <CSVLink
                 headers={null}
                 data={fileData}
-                fileName="data.csv"
+                filename={`order-export_${year}-${month}-${day}.csv`}
                 ref={csvLink}
                 target="_blank"
                 hidden
