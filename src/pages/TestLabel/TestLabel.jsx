@@ -9,16 +9,15 @@ const TestLabel = () => {
 
     useEffect(() => {
         setLoading(true)
-        axios.get('/home/test-lable')
+        axios.get('/test-lable')
             .then(res => {
                 setLoading(false)
-                setId(res?.data?.tracking_code);
-                setImg(res?.data?.label)
+                setId(res.data.tracking_code);
+                setImg(res.data.label)
             })
             .catch(err => {
                 setLoading(false)
-                console.log(err)
-                setMessage('something went wrong')
+                setMessage(err.response.data.message)
             })
 
     }, [])

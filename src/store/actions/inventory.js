@@ -73,6 +73,7 @@ export const editEnventory = (data) => {
             dispatch(createInventorySuccess(res.data.data))
         })
         .catch(err => {
+            console.log(err.response);
             dispatch(createInventoryFailed(err.response))
         })
     }

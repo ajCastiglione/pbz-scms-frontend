@@ -97,6 +97,7 @@ const AddOrder = () => {
                     : line
             ))
         }
+        console.log(newLines)
     }
 
     const saveOrder = (id) => {

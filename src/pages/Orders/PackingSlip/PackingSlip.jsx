@@ -16,6 +16,7 @@ const PackingSlip = () => {
     axios
       .get(`/order/packing-slip/${route.params.id}`)
       .then((res) => {
+        console.log(res.data);
         setData(res.data);
         window.print();
       })

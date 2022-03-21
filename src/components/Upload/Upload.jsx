@@ -58,14 +58,13 @@ const Upload = (props) => {
     }
 
     const fetchHistory = () => {
-        let nowDate = new Date();
         axios.get(`${props.path}?page=${page}&dataRangeStart=${startDate}&dataRangeEnd=${endDate}`)
             .then(res => {
                 setData(res.data.data)
                 setPages(Math.ceil(res.data.total / 10))
             })
             .catch(err => {
-                // window.alert(err.response.data.message);
+                window.alert(err.response.data.message);
             })
     }
 
@@ -77,7 +76,7 @@ const Upload = (props) => {
     const downloadFile = (e, row) => {
         /* axios.get(`https://scms-api.herokuapp.com/uploads/test.csv`) */
         /* axios.get(`http://localhost:4000/uploads/test.csv`) */
-        axios.get(`${process?.env.REACT_APP_API_URL}/uploads/test.csv`)
+        axios.get(`http://18.119.141.222:3000/uploads/test.csv`)
             .then(res => {
 
             })
@@ -125,7 +124,7 @@ const Upload = (props) => {
                             <TableRow key={row.id}>
                                 <TableCell align="center">{row.createdAt}</TableCell>
                                 <TableCell align="center">{row.user.username}</TableCell>
-                                <TableCell align="center"><a target="_blank" href={`${process.env.REACT_APP_API_URL}/${row.filename}`} rel="noreferrer">{row.filename}</a></TableCell>
+                                <TableCell align="center" onClick={e => downloadFile(e, row)}><a target="_blank" href={`https://scms-api.herokuapp.com/${row.filename}`} rel="noreferrer">{row.filename}</a></TableCell>
                             </TableRow>
                         )) : null}
                     </TableBody>

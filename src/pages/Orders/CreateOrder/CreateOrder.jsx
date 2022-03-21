@@ -53,12 +53,7 @@ const CreateOrder = props => {
     async function searchRecipients(q) {
         try {
             const response = await axios.get(`/recipient/api/search?q=${q}`)
-            if(response.data.total > 0)
-                setOptions(response.data.data)
-            else {
-                setOptions([])
-                setOpen(false)
-            }
+            setOptions(response.data.data)
         } catch (error) {
             setOptions([])
         }
@@ -108,7 +103,7 @@ const CreateOrder = props => {
     }
 
     const setSelectedRecipients = (e) => {
-        console.log('E => ',e)
+        console.log('Event => ',e);
         setReci(e);
     }
 
@@ -117,6 +112,7 @@ const CreateOrder = props => {
     let shipConfirmation = 'default';
     let lineItems = [];
 
+    // console.log('States=>', props.location);
     if(props.location.state === undefined || props.location.state === null) {
         shipConfirmation = 'default';
     } else {
@@ -141,7 +137,7 @@ const CreateOrder = props => {
 
                     <Autocomplete
                         id="autoRecipientSelect"
-                        sx={{ width: 600 }}
+                        sx={{ width: 300 }}
                         open={open}
                         onOpen={() => {
                             setOpen(true);
@@ -152,7 +148,7 @@ const CreateOrder = props => {
                         onChange={handleChange}
                         value={reci}
                         isOptionEqualToValue={(option, value) => option.name === value.name}
-                        getOptionLabel={(option) => (option.name !== undefined && option.contact != undefined) ? option.name + ' - ' + option.contact : ''}
+                        getOptionLabel={(option) => option.name}
                         options={options}
                         loading={loading}
                         renderInput={(params) => (
@@ -176,7 +172,7 @@ const CreateOrder = props => {
 
                 </div>
 
-                {(reci && reci.contact) ? (<div className={classes.Details}>
+                {(reci && reci.name) ? (<div className={classes.Details}>
                     <div className={classes.Details__box}>
                         <p>Name: <span>{reci.name}</span></p>
                     </div>
@@ -242,7 +238,7 @@ const CreateOrder = props => {
                         {lineItems.length > 0 ? (
                             lineItems.map(line => (
                                 <TableRow key={line.id}>
-                                    <TableCell align="left">{line.inventory.name}</TableCell>
+                                    <TableCell align="left">{line.inventory.name} s</TableCell>
                                     <TableCell align="left">{line.inventory.number}</TableCell>
                                     <TableCell align="left">{line.inventory.description}</TableCell>
                                     <TableCell align="left">{line.quantity_cases}</TableCell>

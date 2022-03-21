@@ -105,6 +105,7 @@ var editEnventory = function editEnventory(data) {
     _axios["default"].post('/inventory/add-update/edit', data).then(function (res) {
       dispatch(createInventorySuccess(res.data.data));
     })["catch"](function (err) {
+      console.log(err.response);
       dispatch(createInventoryFailed(err.response));
     });
   };

@@ -37,7 +37,7 @@ function App() {
   }, [dispatch])
 
 
-  axios.defaults.baseURL = process?.env.REACT_APP_API_URL;
+  axios.defaults.baseURL = process.env.REACT_APP_API_URL;
 
   axios.defaults.headers.common['Authorization'] = `auth ${token}`;
   if (sudoToken){

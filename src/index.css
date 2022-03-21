@@ -4,18 +4,13 @@
   box-sizing: border-box;
 }
 
-html,
-body {
-  font-family: "Open Sans", sans-serif;
+html, body {
+  font-family: 'Open Sans', sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
 
 code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
+  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
-}
-iframe {
-  pointer-events: none;
-  z-index: -1 !important;
 }

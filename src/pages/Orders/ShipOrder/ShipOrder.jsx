@@ -72,7 +72,7 @@ const ShipOrder = () => {
             rateId: rate.id
         }
 
-        axios.post(`${process?.env.REACT_APP_API_URL}/order/add-update/do-ship`, data)
+        axios.post(`${process.env.REACT_APP_API_URL}/order/add-update/do-ship`, data)
             .then(res => {
                 history.push('/order/add-update', 
                         {
@@ -94,7 +94,7 @@ const ShipOrder = () => {
             tracking: tracking,
             box: newData
         }
-        axios.post(`/order/add-update/do-ship`, data)
+        axios.post(`${process.env.API_URL}/order/add-update/do-ship`, data)
             .then(res => {
                 history.push('/order/add-update', 
                         {

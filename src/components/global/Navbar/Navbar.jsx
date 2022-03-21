@@ -40,9 +40,9 @@ const Navbar = () => {
             fill="none" 
             xmlns="http://www.w3.org/2000/svg"
             onClick={e => setIsNavOpen(!isNavOpen)}>
-                <path d="M26 8.33337H1" stroke="black" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
-                <path d="M26 1H1" stroke="black" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
-                <path d="M26 15.6667H1" stroke="black" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+                <path d="M26 8.33337H1" stroke="black" strokeWidth="2" stroke-linecap="round" stroke-linejoin="round" />
+                <path d="M26 1H1" stroke="black" strokeWidth="2" stroke-linecap="round" stroke-linejoin="round" />
+                <path d="M26 15.6667H1" stroke="black" strokeWidth="2" stroke-linecap="round" stroke-linejoin="round" />
             </svg>
             <button onClick={logoutUser}>Logout ({username})</button>
         </div>
