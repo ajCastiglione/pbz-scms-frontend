@@ -22,6 +22,8 @@ import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 import Paper from '@material-ui/core/Paper';
 import Pagination from '@material-ui/lab/Pagination';
+import Spinner from '../../components/global/Spinner/Spinner';
+
 // Axios
 import axios from 'axios';
 
@@ -38,6 +40,9 @@ const Home = (props) => {
     const [lowStock, setLowStock] = useState([])
     const [pages, setPages] = useState(0);
     const [loading, setLoading] = useState(false);
+    const [clickedOrderId, setClickedOrderId] = useState(0);
+    const [nextPageLoading, setNextPageLoading] = useState(false);
+
     const role = useSelector(state => state.auth.role)
 
     const changeStartDate = (e) => {
@@ -63,9 +68,8 @@ const Home = (props) => {
 
     const getHome = () => {
         setLoading(true)
-        axios.get(`/`)
+        axios.get(`/home`)
             .then(res => {
-                console.log(res)
                 setData(res.data.orders)
                 setPages(Math.ceil(res.data.totalOrders / 10))
                 setLoading(false)
@@ -109,20 +113,22 @@ const Home = (props) => {
             action: action
         })
             .then(res => {
-                console.log(res)
                 getHome();
             })
             .catch(err => {
-                console.log(err)
             })
     }
 
     const postShip = (e, id) => {
+
+        setClickedOrderId(id);
+        setNextPageLoading(true)
         axios.post('/order/add-update/ship', { orderId: id })
             .then(res => {
+                setNextPageLoading(false)
                 history.push('ship-order', res.data)
             }).catch(err => {
-                console.log(err.response)
+                setNextPageLoading(false)
                 window.alert(err.response.data.message)
             })
     }
@@ -192,7 +198,9 @@ const Home = (props) => {
                                     <TableCell align="center"><Button variant="contained" color="primary" onClick={(e) => goEdit(e, o)}>Edit</Button></TableCell>
                                     <TableCell align="center" style={{ maxWidth: '8rem' }}><p style={{ overflow: 'scroll', overflowY: 'hidden' }}>{o.id}</p></TableCell>
                                     <TableCell align="center">
-                                        {o.recipient.name} {o.recipient.contact}
+                                        {o.recipient.name}
+                                        <p style={{ fontWeight: "bold" }}> Contact: </p>
+                                         {o.recipient.contact}
                                         { (o.recipient.country !== 'US' && o.recipient.country !== 'United States') ? <><br /><strong>International? {o.recipient.country}</strong></> : null}
                                         {!o.recipient.phone || o.recipient.phone.length < 8 ? <><br /><span style={{ color: 'red' }}>No recipient phone number (or phone # too short)</span></> : null}
                                     </TableCell>
@@ -213,7 +221,7 @@ const Home = (props) => {
                                     }</TableCell>
                                     <TableCell align="center"><Link style={{ textDecoration: 'none', color: 'blue' }} target="_blank" to={`/picking-slip/${o.id}`}>Packing Slip</Link></TableCell>
                                     <TableCell align="center"><Link style={{ textDecoration: 'none', color: 'blue' }} target="_blank" to={`/picking-ticket/${o.id}`}>Pick Ticket</Link></TableCell>
-                                    {role === 'superadmin' || role === 'warehouse' ? <TableCell align="center"><Button variant="contained" color="primary" onClick={e => postShip(e, o.id)}>Ship</Button></TableCell> : null}
+                                    {role === 'superadmin' || role === 'warehouse' ? <TableCell align="center"><Button variant="contained" color="primary" onClick={e => postShip(e, o.id)}>{nextPageLoading && o.id === clickedOrderId? <Spinner /> : 'Ship'}</Button></TableCell> : null}
                                     <TableCell align="center">{
                                         (() => {
                                             if (o.tracking && o.actual_carrier === 'FedEx')

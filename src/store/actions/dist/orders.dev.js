@@ -46,13 +46,13 @@ exports.getOrdersSuccess = getOrdersSuccess;
 var getOrders = function getOrders(page, filters) {
   return function (dispatch) {
     dispatch(getOrdersStart());
-    var url = "/order?page=".concat(page);
+    var url = "/order/orders?page=".concat(page);
 
     if (filters) {
       if (filters.recipient || filters.transaction || filters.tracking) {
-        url = "/order?page=".concat(page, "&recipent=").concat(filters.recipient, "&customerTransaction=").concat(filters.transaction, "&traking=").concat(filters.tracking);
+        url = "/order/orders?page=".concat(page, "&recipent=").concat(filters.recipient, "&customerTransaction=").concat(filters.transaction, "&traking=").concat(filters.tracking);
       } else if (filters.startDate || filters.endDate) {
-        url = "/order?page=".concat(page, "&dataRangeStart=").concat(filters.startDate, "&dataRangeEnd=").concat(filters.endDate);
+        url = "/order/orders?page=".concat(page, "&dataRangeStart=").concat(filters.startDate, "&dataRangeEnd=").concat(filters.endDate);
       }
     }
 
@@ -72,7 +72,6 @@ var getOrderAndUpdate = function getOrderAndUpdate(id) {
 
     _axios["default"].get("/order/add-update/".concat(id)).then(function (res) {
       dispatch(getOrderAndUpdateSuccess(res.data.items_in_order));
-      console.log(res);
     })["catch"](function (err) {
       window.alert(err.response.data.message);
     });
