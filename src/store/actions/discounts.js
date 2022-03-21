@@ -25,7 +25,7 @@ export const getDiscounts = (id) => {
         dispatch(fetchDiscountsStart())
         axios.get(`/user/add-update/discounts/${id}`)
         .then(res => {
-            dispatch(fetchDiscountsSuccess(res.data.descounts))
+            dispatch(fetchDiscountsSuccess(res.data.discounts))
         })
         .catch(err => {
             dispatch(fetchDiscountsFailed())
@@ -38,11 +38,9 @@ export const addDiscount = (discount) => {
         dispatch(fetchDiscountsStart())
         axios.post('/user/add-update/discounts', discount)
         .then(res => {
-            console.log(res)
             dispatch(getDiscounts(discount.id))
         })
         .catch(err => {
-            console.log(err.response)
             dispatch(getDiscounts(discount.id))
         })
     }

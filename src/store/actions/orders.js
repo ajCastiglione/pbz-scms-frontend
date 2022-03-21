@@ -24,12 +24,12 @@ export const getOrdersSuccess = (data) => {
 export const getOrders = (page, filters) => {
     return dispatch => {
         dispatch(getOrdersStart())
-        let url = (`/order?page=${page}`)
+        let url = (`/order/orders?page=${page}`)
         if (filters) {
             if (filters.recipient || filters.transaction || filters.tracking){
-                url = (`/order?page=${page}&recipent=${filters.recipient}&customerTransaction=${filters.transaction}&traking=${filters.tracking}`)
+                url = (`/order/orders?page=${page}&recipent=${filters.recipient}&customerTransaction=${filters.transaction}&tracking=${filters.tracking}`)
             }else if (filters.startDate || filters.endDate){
-                url = (`/order?page=${page}&dataRangeStart=${filters.startDate}&dataRangeEnd=${filters.endDate}`)
+                url = (`/order/orders?page=${page}&dataRangeStart=${filters.startDate}&dataRangeEnd=${filters.endDate}`)
             }
         }
         axios.get(url)
@@ -48,7 +48,6 @@ export const getOrderAndUpdate = (id) => {
         axios.get(`/order/add-update/${id}`)
         .then(res => {
             dispatch(getOrderAndUpdateSuccess(res.data.items_in_order))
-            console.log(res)
         }).catch(err => {
             window.alert(err.response.data.message);
         })

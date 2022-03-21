@@ -58,7 +58,6 @@ export const authUser = (data) => {
     return dispatch => {
         dispatch(authStart())
 
-        console.log(`API_URL = ${process.env.REACT_APP_API_URL}/auth/login`);
         axios.post(`${process.env.REACT_APP_API_URL}/auth/login`, data)
         .then(res => {
             const expirationDate = new Date(new Date().getTime() + res.data.data.token_expiresIn);
@@ -108,7 +107,7 @@ export const getSudo = () => {
     return dispatch => {
         axios.get('/user/sudo')
         .then(res => {
-            dispatch(getSudoSuccess(res.data.descount))
+            dispatch(getSudoSuccess(res.data.discount))
         })
         .catch(err => {
             window.alert(err.response.data.message)

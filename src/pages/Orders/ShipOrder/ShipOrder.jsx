@@ -94,7 +94,7 @@ const ShipOrder = () => {
             tracking: tracking,
             box: newData
         }
-        axios.post(`${process.env.API_URL}/order/add-update/do-ship`, data)
+        axios.post(`/order/add-update/do-ship`, data)
             .then(res => {
                 history.push('/order/add-update', 
                         {

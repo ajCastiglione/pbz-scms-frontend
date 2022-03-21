@@ -23,6 +23,8 @@ import TableHead from "@material-ui/core/TableHead";
 import TableRow from "@material-ui/core/TableRow";
 import Paper from "@material-ui/core/Paper";
 import Pagination from "@material-ui/lab/Pagination";
+import Spinner from '../../../components/global/Spinner/Spinner'
+
 // Axios
 import axios from "axios";
 
@@ -47,6 +49,9 @@ const GetOrders = () => {
   const [tracking, setTracking] = useState(
     values.tracking ? values.tracking : ""
   );
+  const [nextPageLoading, setNextPageLoading] = useState(false);
+
+  const [clickedOrderId, setClickedOrderId] = useState(0);
 
   let filters = {
     startDate,
@@ -123,12 +128,18 @@ const GetOrders = () => {
       alert("The item is already shipped. we can't ship this item");
       return;
     }
+
+    setClickedOrderId(id);
+    setNextPageLoading(true)
+
     axios
       .post("/order/add-update/ship", { orderId: id })
-      .then((res) => {       
-        history.push("ship-order", res.data);
+      .then((res) => {   
+        setNextPageLoading(false)  
+        history.push("/ship-order", res.data);
       })
       .catch((err) => {
+        setNextPageLoading(false)
         window.alert(err.response.data.message);
       });
   };
@@ -157,6 +168,7 @@ const GetOrders = () => {
   };
 
   return (
+    
     <React.Fragment>
       <form
         className={classes.filters__container}
@@ -342,8 +354,7 @@ const GetOrders = () => {
                           variant="contained"
                           color="primary"
                           onClick={(e) => postShip(e, o.id, o)}
-                        >
-                          Ship
+                        > {nextPageLoading && o.id === clickedOrderId? <Spinner /> : 'Ship'}
                         </Button>
                       </TableCell>
                     ) : null}
