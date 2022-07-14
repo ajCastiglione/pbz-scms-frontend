@@ -310,12 +310,12 @@ const GetOrders = () => {
                       <TableCell align="center">Not Found</TableCell>
                     )}
                     <TableCell align="center">
-                      {o.createdAt.slice(0, 10)}
+                      {o.createdAt?.slice(0, 10)}
                     </TableCell>
                     <TableCell align="center">
                       {o.createdAt === o.updatedAt
                         ? null
-                        : o.updatedAt.slice(0, 10)}
+                        : o.updatedAt?.slice(0, 10)}
                     </TableCell>
                     <TableCell align="center">
                       {o.shippedAt ? o.shippedAt.slice(0, 10) : null}

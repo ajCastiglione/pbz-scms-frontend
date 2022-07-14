@@ -1,82 +1,86 @@
-import * as actionTypes from './actionTypes';
-import axios from 'axios'
+import * as actionTypes from "./actionTypes";
+import axios from "axios";
 
 export const getOrdersStart = () => {
     return {
-        type: actionTypes.FETCH_ORDERS_START
-    }
-}
+        type: actionTypes.FETCH_ORDERS_START,
+    };
+};
 
-export const getOrderAndUpdateSuccess = (data) => {
+export const getOrderAndUpdateSuccess = data => {
     return {
         type: actionTypes.FETCH_ORDERS_AND_UPDATE_SUCCESS,
-        data
-    }
-}
+        data,
+    };
+};
 
-export const getOrdersSuccess = (data) => {
+export const getOrdersSuccess = data => {
     return {
         type: actionTypes.GET_ORDERS_SUCCESS,
-        data
-    }
-}
+        data,
+    };
+};
 
 export const getOrders = (page, filters) => {
     return dispatch => {
-        dispatch(getOrdersStart())
-        let url = (`/order/orders?page=${page}`)
+        dispatch(getOrdersStart());
+        let url = `/order/orders?page=${page}`;
         if (filters) {
-            if (filters.recipient || filters.transaction || filters.tracking){
-                url = (`/order/orders?page=${page}&recipent=${filters.recipient}&customerTransaction=${filters.transaction}&tracking=${filters.tracking}`)
-            }else if (filters.startDate || filters.endDate){
-                url = (`/order/orders?page=${page}&dataRangeStart=${filters.startDate}&dataRangeEnd=${filters.endDate}`)
+            if (filters.recipient || filters.transaction || filters.tracking) {
+                url = `/order/orders?page=${page}&recipent=${filters.recipient}&customerTransaction=${filters.transaction}&tracking=${filters.tracking}`;
+            } else if (filters.startDate || filters.endDate) {
+                url = `/order/orders?page=${page}&dataRangeStart=${filters.startDate}&dataRangeEnd=${filters.endDate}`;
             }
         }
-        axios.get(url)
-        .then(res => {
-            dispatch(getOrdersSuccess(res.data))
-        })
-        .catch(err => {
-            window.alert(err.response.data.message);
-        })
-    }
-}
+        axios
+            .get(url)
+            .then(res => {
+                dispatch(getOrdersSuccess(res.data));
+            })
+            .catch(err => {
+                window.alert(err.response.data.message);
+            });
+    };
+};
 
-export const getOrderAndUpdate = (id) => {
+export const getOrderAndUpdate = id => {
     return dispatch => {
-        dispatch(getOrdersStart())
-        axios.get(`/order/add-update/${id}`)
-        .then(res => {
-            dispatch(getOrderAndUpdateSuccess(res.data.items_in_order))
-        }).catch(err => {
-            window.alert(err.response.data.message);
-        })
-    }   
-}
+        dispatch(getOrdersStart());
+        axios
+            .get(`/order/add-update/${id}`)
+            .then(res => {
+                dispatch(getOrderAndUpdateSuccess(res.data.items_in_order));
+            })
+            .catch(err => {
+                window.alert(err.response.data.message);
+            });
+    };
+};
 
-export const addInventory = (data) => {
+export const addInventory = data => {
     return dispatch => {
-        
-        axios.post('/order/add-update/add-inventory', data)
-        .then(res => {
-            dispatch(getOrderAndUpdate(data.orderId))
-        })
-        .catch(err => {
-            window.alert(err.response.data.message)
-        })
-    }
-}
+        axios
+            .post("/order/add-update/add-inventory", data)
+            .then(res => {
+                dispatch(getOrderAndUpdate(data.orderId));
+            })
+            .catch(err => {
+                window.alert(err.response.data.message);
+            });
+    };
+};
 
 export const removeOrder = (id, orderId) => {
     return dispatch => {
-        axios.post('/order/add-update/remove-inventory', {
-            lineItemId: id
-        })
-        .then(res => {
-            dispatch(getOrderAndUpdate(orderId))
-        })
-        .catch(err => {
-            window.alert(err.response.data.message);
-        })
-    }
-}
+        axios
+            .post("/order/add-update/remove-inventory", {
+                lineItemId: id,
+            })
+            .then(res => {
+                dispatch(getOrderAndUpdate(orderId));
+            })
+            .catch(err => {
+                window.alert(err.response.data.message);
+            });
+    };
+};
