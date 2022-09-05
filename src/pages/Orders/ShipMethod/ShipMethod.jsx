@@ -32,18 +32,36 @@ const ShipMethod = () => {
     // Hooks consts
     const location = useLocation();
     const history = useHistory();
+    const order = location?.state?.order
     // State consts
     const lineItems = location.state.lineItem;
     const shipRates = location.state.shipRayes
-    const [insuranceValue, setInsuranceValue] = useState('');
-    const [signature, setSignature] = useState('NONE');
-    const [shippingMethod, setShippingMethod] = useState([location.state.shipRayes[0].carrier, location.state.shipRayes[0].service]);
-    const [customerReference, setCustomerReference] = useState('')
-    const [notify, setNotify] = useState(false);
-    const [email, setEmail] = useState('');
-    const [company, setCompany] = useState(location.state.order.user.company);
-    const [phone, setPhone] = useState(location.state.order.user.phone);
-    const discounts = location.state.descounTable
+    const [insuranceValue, setInsuranceValue] = useState(order?.insurance_value || '');
+    const [signature, setSignature] = useState(order.signature_option || 'NONE');
+    const selectedShipping = location?.state?.shipRayes?.find(
+        (shipRate) =>
+            shipRate.carrier === order?.requested_carrier &&
+            shipRate.service === order?.requested_service
+    );
+    const actualSelectedShipping = location?.state?.shipRayes?.find(
+        (shipRate) =>
+            shipRate.carrier === order?.actual_carrier &&
+            shipRate.service === order?.actual_service
+    );
+    const [shippingMethod, setShippingMethod] = useState([
+        actualSelectedShipping?.carrier || selectedShipping?.carrier || location.state.shipRayes[0].carrier,
+        actualSelectedShipping?.service ||  selectedShipping?.service || location.state.shipRayes[0].service,
+    ]);
+    const [customerReference, setCustomerReference] = useState(order?.customer_reference || "");
+    const [notify, setNotify] = useState(order?.notify_recipient || false);
+    const [email, setEmail] = useState(order?.additionally_notify || "");
+    const [company, setCompany] = useState(
+      order?.blind_company || location.state.order.user.company
+    );
+    const [phone, setPhone] = useState(
+      order?.blind_phone || location.state.order.user.phone
+    );
+    const discounts = location.state.descounTable;
     const loading = useSelector((state) => state.orders.loading);
     const [nextPageLoading, setNextPageLoading] = useState(false);
 
