@@ -44,7 +44,7 @@ const ImportRecipient = props => {
             .post(props.link, form)
             .then(res => {
                 if (res.data.fail) {
-                    setError(res.data.errors[0]);
+                    setError(res.data.errors);
                     setLoading(false);
                     return;
                 }
@@ -83,7 +83,8 @@ const ImportRecipient = props => {
                                 </Link>
                             </p>
                         ) : null}
-                        {error ? <p style={{ color: "red" }}>{error}</p> : null}
+                        {(Array.isArray(error) && error.length > 0) ? error.map((err, ind) => <p key={ind} style={{ color: "red", margin: '5px 0px' }}>{err}</p>)
+                        : error ? <p style={{ color: "red" }}>{error}</p> : null}
                         <Button
                             variant="contained"
                             color="primary"
