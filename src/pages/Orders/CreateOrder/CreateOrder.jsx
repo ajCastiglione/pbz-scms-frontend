@@ -281,9 +281,9 @@ const CreateOrder = props => {
                                 return (<TableRow key={i}>
                                     <TableCell align="center">{i+1}</TableCell>
                                     <TableCell align="center">{label.weight}</TableCell>
-                                    <TableCell align="center"><a className={classes.LABEL} href={label.label_url} target='_blank' role='button'>PNG</a></TableCell>
-                                    <TableCell align="center"><a className={classes.LABEL} href={label.label_pdf_url} target='_blank' role='button'>PDF</a></TableCell>
-                                    <TableCell align="center"><a className={classes.LABEL} href={label.label_zpl_url} target='_blank' role='button'>ZPL</a></TableCell>
+                                    <TableCell align="center"><a rel="noreferrer" className={classes.LABEL} href={label.label_url} target='_blank' role='button'>PNG</a></TableCell>
+                                    <TableCell align="center"><a rel="noreferrer" className={classes.LABEL} href={label.label_pdf_url} target='_blank' role='button'>PDF</a></TableCell>
+                                    <TableCell align="center"><a rel="noreferrer" className={classes.LABEL} href={label.label_zpl_url} target='_blank' role='button'>ZPL</a></TableCell>
                                 </TableRow>)
                             })
                         ) : <p>lines are empty</p>}
