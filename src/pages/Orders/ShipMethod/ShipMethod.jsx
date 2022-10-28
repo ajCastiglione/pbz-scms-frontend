@@ -207,7 +207,7 @@ const ShipMethod = () => {
                                     </Table>
                                 </TableContainer>
                             </div>
-                            <div class={classes.subForm}>
+                            <div className={classes.subForm}>
                                 <label>Shipment Identifier/Reference</label>
                                 <input type="text" value={customerReference} onChange={e => setCustomerReference(e.target.value)}/>
                                 <p>shipment recipient: {location.state.order.recipient.email}</p>
