@@ -279,7 +279,6 @@ const CreateOrder = props => {
                         { props.location.state.data.labels.length > 0 ? (
                             props.location.state.data.labels.map(function(label,i) {
                                 return (<TableRow key={i}>
-                                    {console.log(label)}
                                     <TableCell align="center">{i+1}</TableCell>
                                     <TableCell align="center">{(label.weight / 16).toFixed(2)}</TableCell>
                                     <TableCell align="center"><a rel="noreferrer" className={classes.LABEL} href={label.label_url} target='_blank' role='button'>PNG</a></TableCell>
