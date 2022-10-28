@@ -155,7 +155,7 @@ const ShipOrder = () => {
                     </TableHead>
                     <TableBody>
                         {location.state.rates.map((rate, index) => (
-                            <TableRow key={index}>
+                            <TableRow key={rate.id}>
                                 <TableCell align="center">{rate.carrier}</TableCell>
                                 <TableCell align="center">
                                     {rate.service}<br />
@@ -178,15 +178,10 @@ const ShipOrder = () => {
                                 </TableCell>
                                 <TableCell align="center">{Number(rate.list_rate) + Number(location.state.order.insurance_value)} {rate.list_currency}</TableCell>
                                 <TableCell align="center">{Number(rate.retail_rate) + Number(location.state.order.insurance_value)} {rate.list_currency}</TableCell>
-                                
-                                {location.state.order.requested_service === rate.service ?
+                                {location.state.order.requested_service.toLowerCase() === rate.service.toLowerCase() ?
                                     <TableCell align="center"><Button variant="contained" color="primary" onClick={e => pickRate(e, rate)}>Pick this rate</Button></TableCell> :
                                     <TableCell align="center"><Button variant="contained" onClick={e => pickRate(e, rate)}>Pick this rate</Button></TableCell>
                                 }
-                                 
-                                
-                                
-                                
                             </TableRow>
                         ))}
                     </TableBody>
