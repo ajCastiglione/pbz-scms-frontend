@@ -301,12 +301,12 @@ const Home = props => {
                                                 ) : null}
                                             </TableCell>
                                             <TableCell align="center">
-                                                {o.createdAt.slice(0, 10)}
+                                                {o.createdAt?.slice(0, 10)}
                                             </TableCell>
                                             <TableCell align="center">
                                                 {o.createdAt === o.updatedAt
                                                     ? null
-                                                    : o.updatedAt.slice(0, 10)}
+                                                    : o.updatedAt?.slice(0, 10)}
                                             </TableCell>
                                             <TableCell align="center">
                                                 {o.shipped}
