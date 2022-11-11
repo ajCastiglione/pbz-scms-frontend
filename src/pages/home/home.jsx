@@ -42,6 +42,7 @@ const Home = props => {
         values.endDate ? values.endDate : ""
     );
     const [data, setData] = useState([]);
+    const [clients, setClients] = useState([]);
     const [lowStock, setLowStock] = useState([]);
     const [pages, setPages] = useState(0);
     const [loading, setLoading] = useState(false);
@@ -76,9 +77,10 @@ const Home = props => {
     const getHome = () => {
         setLoading(true);
         axios
-            .get(`/home`)
+            .get(`/home?page=${page}`)
             .then(res => {
                 setData(res.data.orders);
+                setClients(res.data.users);
                 setPages(Math.ceil(res.data.totalOrders / 10));
                 setLoading(false);
                 if (res.data.low_stock) {
@@ -202,6 +204,12 @@ const Home = props => {
                                 <TableRow>
                                     <TableCell align="center">Edit</TableCell>
                                     <TableCell align="center">ID</TableCell>
+                                    {role === "superadmin" ||
+                                    role === "warehouse" ? (
+                                        <TableCell align="center">
+                                            Client
+                                        </TableCell>
+                                    ) : null}
                                     <TableCell align="center">
                                         Recipient
                                     </TableCell>
@@ -261,6 +269,18 @@ const Home = props => {
                                                     {o.id}
                                                 </p>
                                             </TableCell>
+                                            {role === "superadmin" ||
+                                            role === "warehouse" ? (
+                                                <TableCell align="center">
+                                                    {clients.length > 0
+                                                        ? clients.filter(
+                                                              c =>
+                                                                  c.id ===
+                                                                  o.user_id
+                                                          )[0].company
+                                                        : null}
+                                                </TableCell>
+                                            ) : null}
                                             <TableCell align="center">
                                                 {o.recipient.name}
                                                 <p
@@ -432,7 +452,7 @@ const Home = props => {
                         <div className={classes.pagination}>
                             <Pagination
                                 count={pages}
-                                page={page}
+                                page={Number(page)}
                                 onChange={changePage}
                                 color="primary"
                             />
