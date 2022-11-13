@@ -58,6 +58,13 @@ const CreateInventory = () => {
   );
   const [validationErrors, setValidationErrors] = useState({});
 
+  // Clear inventory notification on unmount.
+  useEffect(() => {
+    return () => {
+      dispatch(actions.clearInventoryNotification());
+    };
+  }, [dispatch]);
+
   // Function to re-format data and dispatch redux action
   const createInventory = (event) => {
     event.preventDefault();

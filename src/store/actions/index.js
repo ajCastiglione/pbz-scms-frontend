@@ -14,7 +14,8 @@ export {
 export {
     getInventory,
     createInventory,
-    editEnventory
+    editEnventory,
+    clearInventoryNotification
 } from './inventory'
 
 export {

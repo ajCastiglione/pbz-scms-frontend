@@ -35,6 +35,12 @@ export const createInventoryFailed = (error) => {
     }
 }
 
+export const clearInventoryNotification = () => {
+    return {
+        type: actionTypes.CLEAR_INVENTORY_MESSAGE
+    }
+}
+
 
 export const getInventory = (page) => {
     return dispatch => {
