@@ -262,11 +262,12 @@ const Home = props => {
                                             </TableCell>
                                             <TableCell
                                                 align="center"
-                                                style={{ maxWidth: "8rem" }}>
+                                                style={{
+                                                    maxWidth: "8rem",
+                                                }}>
                                                 <p
                                                     style={{
-                                                        overflow: "scroll",
-                                                        overflowY: "hidden",
+                                                        overflow: "auto",
                                                     }}>
                                                     {o.id}
                                                 </p>
