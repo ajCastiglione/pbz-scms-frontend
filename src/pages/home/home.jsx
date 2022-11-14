@@ -199,7 +199,9 @@ const Home = props => {
             ) : (
                 <>
                     <TableContainer component={Paper}>
-                        <Table aria-label="simple table">
+                        <Table
+                            aria-label="simple table"
+                            className="pending-orders">
                             <TableHead>
                                 <TableRow>
                                     <TableCell align="center">Edit</TableCell>
@@ -348,6 +350,9 @@ const Home = props => {
                                                         textDecoration: "none",
                                                         color: "blue",
                                                     }}
+                                                    className={
+                                                        classes.home_action
+                                                    }
                                                     target="_blank"
                                                     to={`/picking-slip/${o.id}`}>
                                                     Packing Slip
@@ -359,6 +364,9 @@ const Home = props => {
                                                         textDecoration: "none",
                                                         color: "blue",
                                                     }}
+                                                    className={
+                                                        classes.home_action
+                                                    }
                                                     target="_blank"
                                                     to={`/picking-ticket/${o.id}`}>
                                                     Pick Ticket

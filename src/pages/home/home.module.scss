@@ -1,4 +1,4 @@
-.filters__container{
+.filters__container {
     padding: 1rem;
     display: flex;
     align-items: center;
@@ -7,7 +7,16 @@
     }
 }
 
-.pagination{
+.home_action {
+    padding: 8px;
+    &:active,
+    &:focus {
+        background: #ccc;
+        color: #000 !important;
+    }
+}
+
+.pagination {
     padding: 2rem;
     display: flex;
     justify-content: center;
