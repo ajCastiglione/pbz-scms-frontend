@@ -130,7 +130,6 @@ const AddOrder = () => {
             .then(res => {
                 
                 setNextPageLoading(false)
-                
                 if (res.data.shipRayes.length < 1) {
                     window.alert("Order can't be shipped (Wrong recipient info)")
                     return

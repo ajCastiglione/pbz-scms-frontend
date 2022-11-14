@@ -276,6 +276,7 @@ const CreateOrder = props => {
                         </TableRow>
                     </TableHead>
                     <TableBody>
+                    {console.log(props.location.state.data.labels)}
                         { props.location.state.data.labels.length > 0 ? (
                             props.location.state.data.labels.map(function(label,i) {
                                 return (<TableRow key={i}>
