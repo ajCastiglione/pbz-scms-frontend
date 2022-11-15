@@ -148,7 +148,9 @@ const ShipOrder = () => {
                                         flexDirection: "column",
                                         alignItems: "center",
                                     }}>
-                                    {Number(b.weight).toFixed(2)}
+                                    {newData[index].weight
+                                        ? newData[index].weight.toFixed(2)
+                                        : Number(b.weight).toFixed(2)}
                                     <input
                                         type="text"
                                         placeholder="new weight"
