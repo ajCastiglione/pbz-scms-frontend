@@ -1,5 +1,5 @@
 // React Imports
-import React, { useState, useEffect } from "react";
+import React, { useState, useRef } from "react";
 // React-Router Imports
 import { useLocation, useHistory } from "react-router";
 // Styles
@@ -13,6 +13,7 @@ import TableHead from "@material-ui/core/TableHead";
 import TableRow from "@material-ui/core/TableRow";
 import Paper from "@material-ui/core/Paper";
 import Button from "@material-ui/core/Button";
+import AddBoxIcon from "@material-ui/icons/AddBox";
 // Axios
 import axios from "axios";
 
@@ -29,7 +30,13 @@ const ShipOrder = () => {
     const [carrier, setCarrier] = useState("");
     const [service, setService] = useState("");
     const [tracking, setTracking] = useState("");
+    const [customsDescInputs, setCustomsDescInputs] = useState([]);
+    const [customsValueInputs, setCustomsValueInputs] = useState([]);
+    const [customsInfo, setCustomsInfo] = useState([]);
     const history = useHistory();
+    // Refs
+    const customsDescRef = useRef();
+    const customsValueRef = useRef();
 
     const addRows = () => {
         setShowBoxes([...showBoxes, { weight: 0 }]);
@@ -52,23 +59,23 @@ const ShipOrder = () => {
     };
 
     const changeDesc = (e, editedIndex) => {
-        setNewData(
-            newData.map((box, index) =>
-                index === editedIndex
-                    ? { ...box, Customs_desc: e.target.value }
-                    : box
-            )
-        );
+        setCustomsInfo(prev => {
+            prev[editedIndex] = {
+                ...prev[editedIndex],
+                customs_desc: e.target.value,
+            };
+            return prev;
+        });
     };
 
     const changeValue = (e, editedIndex) => {
-        setNewData(
-            newData.map((box, index) =>
-                index === editedIndex
-                    ? { ...box, Customs_value: parseInt(e.target.value) }
-                    : box
-            )
-        );
+        setCustomsInfo(prev => {
+            prev[editedIndex] = {
+                ...prev[editedIndex],
+                customs_value: parseInt(e.target.value),
+            };
+            return prev;
+        });
     };
 
     const pickRate = (e, rate) => {
@@ -77,6 +84,7 @@ const ShipOrder = () => {
             actual_service: rate.service,
             actual_carrier: rate.carrier,
             box: newData,
+            customs: customsInfo,
             shipment_id: location.state.shipment_id,
             rateId: rate.id,
         };
@@ -116,6 +124,33 @@ const ShipOrder = () => {
             .catch(err => {
                 window.alert(err.response.data.message);
             });
+    };
+
+    const renderAdditionalTextFields = () => {
+        // Append additional to customs description.
+        setCustomsDescInputs(prev => [
+            ...prev,
+            <>
+                <br />
+                <input
+                    key={`cdesc-${prev.length}`}
+                    type="text"
+                    onChange={e => changeDesc(e, parseInt(prev.length + 1))}
+                />
+            </>,
+        ]);
+        // Append additional to customs value.
+        setCustomsValueInputs(prev => [
+            ...prev,
+            <>
+                <br />
+                <input
+                    key={`cvalue-${prev.length}`}
+                    type="number"
+                    onChange={e => changeValue(e, parseInt(prev.length + 1))}
+                />
+            </>,
+        ]);
     };
 
     return (
@@ -158,16 +193,34 @@ const ShipOrder = () => {
                                         onChange={e => changeWeight(e, index)}
                                     />
                                 </TableCell>
-                                <TableCell align="center">
+                                <TableCell ref={customsDescRef} align="center">
                                     <input
+                                        key="cdesc-original"
                                         type="text"
                                         onChange={e => changeDesc(e, index)}
                                     />
+                                    {customsDescInputs}
                                 </TableCell>
-                                <TableCell align="center">
+                                <TableCell
+                                    ref={customsValueRef}
+                                    align="center"
+                                    style={{ position: "relative" }}>
                                     <input
+                                        key="cvalue-original"
                                         type="number"
                                         onChange={e => changeValue(e, index)}
+                                    />
+                                    {customsValueInputs}
+                                    <AddBoxIcon
+                                        style={{
+                                            position: "absolute",
+                                            top: "25px",
+                                            right: "25%",
+                                            cursor: "pointer",
+                                        }}
+                                        onClick={e =>
+                                            renderAdditionalTextFields(e, index)
+                                        }
                                     />
                                 </TableCell>
                             </TableRow>
