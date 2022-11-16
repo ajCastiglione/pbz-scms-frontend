@@ -1,6 +1,6 @@
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import * as actions from "../../../store/actions/index";
-import { debounce } from "lodash";
+import { debounce } from "../../../utils";
 import classes from "./Search.module.scss";
 import TextField from "@material-ui/core/TextField";
 
