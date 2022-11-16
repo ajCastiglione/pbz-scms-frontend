@@ -3,6 +3,7 @@ import * as actionTypes from "../actions/actionTypes";
 const initialState = {
     inventory: [],
     total: 0,
+    searchTerm: "",
     loading: false,
     message: "",
     error: "",
@@ -15,11 +16,17 @@ const reducer = (state = initialState, action) => {
                 ...state,
                 loading: true,
             };
+        case actionTypes.SEARCH_INVENTORY_TERM:
+            return {
+                ...state,
+                searchTerm: action.searchTerm,
+            };
         case actionTypes.FETCH_INVENTORY_SUCCESS:
             return {
                 ...state,
                 inventory: action.inventory.data,
                 total: action.inventory.total,
+                page: action.page,
                 loading: false,
             };
         case actionTypes.CREATE_INVENTORY_START:

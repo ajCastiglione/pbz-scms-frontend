@@ -1,36 +1,23 @@
-export {
-    getRecipients,
-    createRecipient
-} from './recipients';
+export { getRecipients, createRecipient } from "./recipients";
 
-export {
-    authUser,
-    authCheckState,
-    logout,
-    getSudo,
-    changeSudo
-} from './auth';
+export { authUser, authCheckState, logout, getSudo, changeSudo } from "./auth";
 
 export {
     getInventory,
     createInventory,
     editEnventory,
-    clearInventoryNotification
-} from './inventory'
+    searchInventory,
+    searchInventoryTerm,
+    clearInventoryNotification,
+} from "./inventory";
 
-export {
-    getUsers,
-    addUser
-} from './users'
+export { getUsers, addUser } from "./users";
 
-export {
-    getDiscounts,
-    addDiscount
-} from './discounts'
+export { getDiscounts, addDiscount } from "./discounts";
 
 export {
     getOrders,
     addInventory,
     removeOrder,
-    getOrderAndUpdate
-} from './orders'
+    getOrderAndUpdate,
+} from "./orders";
