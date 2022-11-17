@@ -1,7 +1,7 @@
 // React Imports
 import React, { useState, useRef } from "react";
 // React-Router Imports
-import { useLocation, useHistory } from "react-router";
+import { useLocation, useHistory } from "react-router-dom";
 // Styles
 import classes from "./ShipOrder.module.scss";
 // Material UI

@@ -1,6 +1,6 @@
 import axios from "axios";
 import React, { useEffect, useState } from "react";
-import { useRouteMatch } from "react-router";
+import { useRouteMatch } from "react-router-dom";
 import classes from "./PickingTicket.module.scss";
 
 const PickingTicket = () => {

@@ -4,7 +4,7 @@ import React, { useState, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import * as actions from "../../../store/actions/index";
 // React-router imports
-import { useLocation, useHistory } from "react-router";
+import { useLocation, useHistory } from "react-router-dom";
 import { Link } from "react-router-dom";
 // Query string package to get queries from API
 import queryString from "query-string";

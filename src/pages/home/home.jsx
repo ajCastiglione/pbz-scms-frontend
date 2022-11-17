@@ -6,7 +6,7 @@ import * as actions from "../../store/actions";
 // Styles
 import classes from "./home.module.scss";
 // React-router
-import { useLocation, useHistory } from "react-router";
+import { useLocation, useHistory } from "react-router-dom";
 import { Link } from "react-router-dom";
 import queryString from "query-string";
 // Components Imports
