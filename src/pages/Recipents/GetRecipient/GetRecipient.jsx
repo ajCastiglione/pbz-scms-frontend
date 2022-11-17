@@ -1,70 +1,89 @@
 // React Imports
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState } from "react";
 // Redux Imports
-import { useDispatch, useSelector } from 'react-redux';
-import * as actions from '../../../store/actions/index';
+import { useDispatch, useSelector } from "react-redux";
+import * as actions from "../../../store/actions/index";
 // React-router Imports
-import { useHistory, useRouteMatch, useLocation } from 'react-router';
+import { useHistory, useRouteMatch, useLocation } from "react-router-dom";
 // query-string package to extract queries from URL
-import queryString from 'query-string';
+import queryString from "query-string";
 // Styles
-import classes from './GetRecipient.module.scss';
+import classes from "./GetRecipient.module.scss";
 // Components
-import LargeSpinner from '../../../components/global/LargeSpinner/LargeSpinner';
-import DataTable from '../../../components/global/DataTable/DataTable';
+import LargeSpinner from "../../../components/global/LargeSpinner/LargeSpinner";
+import DataTable from "../../../components/global/DataTable/DataTable";
 // Material UI
-import Pagination from '@material-ui/lab/Pagination';
+import Pagination from "@material-ui/lab/Pagination";
 
 const GetRecipient = () => {
     // Hooks Consts
     const dispatch = useDispatch();
     const history = useHistory();
     const route = useRouteMatch();
-    const { search } = useLocation()
-    const values = queryString.parse(search)
-    const [page, setPage] = useState(Number(values.page))
+    const { search } = useLocation();
+    const values = queryString.parse(search);
+    const [page, setPage] = useState(Number(values.page));
 
     useEffect(() => {
-        dispatch(actions.getRecipients(page))
-    }, [page])
+        dispatch(actions.getRecipients(page));
+    }, [page]);
 
     // Redux state getters
     const rows = useSelector(state => state.recipients.recipients);
     const loading = useSelector(state => state.recipients.loading);
-    const pages = useSelector(state => Math.ceil(state.recipients.total/10))
+    const pages = useSelector(state => Math.ceil(state.recipients.total / 10));
     // Refactoring Recipients to present
-    const headers = ['Edit', 'Name', 'Contact', 'Phone', 'Email', 'Address']
+    const headers = ["Edit", "Name", "Contact", "Phone", "Email", "Address"];
     const presentRows = [];
-    if(rows.length > 0){
+    if (rows.length > 0) {
         rows.forEach(row => {
             presentRows.push({
                 id: row.id,
-                edit: 'Edit',
+                edit: "Edit",
                 name: row.name,
                 contact: row.contact,
                 phone: row.phone,
                 email: row.email,
                 address: row.street1,
-            })
+            });
         });
     }
 
     const changePage = (event, value) => {
-        history.replace(`/recipient?page=${value}`)
-        setPage(value)
-    }
+        history.replace(`/recipient?page=${value}`);
+        setPage(value);
+    };
 
-    const editRecipient = (id) => {
-        const filteredRecipient = rows.filter(row => row.id === id)
-        history.push(`${route.path}add-update/${id}`, {recipient: filteredRecipient[0]})
-    }
+    const editRecipient = id => {
+        const filteredRecipient = rows.filter(row => row.id === id);
+        history.push(`${route.path}add-update/${id}`, {
+            recipient: filteredRecipient[0],
+        });
+    };
 
     return (
         <React.Fragment>
-            {loading ? <LargeSpinner /> : <DataTable rows={presentRows} headers={headers} editClicked={editRecipient} />}
-            {pages > 1 && <div className={classes.pagination}><Pagination count={pages} page={page} onChange={changePage} color="primary" /></div>}
+            {loading ? (
+                <LargeSpinner />
+            ) : (
+                <DataTable
+                    rows={presentRows}
+                    headers={headers}
+                    editClicked={editRecipient}
+                />
+            )}
+            {pages > 1 && (
+                <div className={classes.pagination}>
+                    <Pagination
+                        count={pages}
+                        page={page}
+                        onChange={changePage}
+                        color="primary"
+                    />
+                </div>
+            )}
         </React.Fragment>
-    )
-}
+    );
+};
 
-export default GetRecipient
+export default GetRecipient;
