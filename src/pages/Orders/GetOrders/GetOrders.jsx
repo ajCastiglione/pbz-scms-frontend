@@ -380,7 +380,16 @@ const GetOrders = () => {
                               {o.tracking}
                             </a>
                           );
-                        else return <p>Can't be tracked</p>;
+                          else if(o.tracking && o.actual_carrier.toUpperCase() === "UPS") return (
+                            <a
+                              href={`http://wwwapps.ups.com/WebTracking/track?track=yes&trackNums=${o.tracking}`}
+                              target="_blank"
+                              rel="noopener noreferrer"
+                            >
+                              {o.tracking}
+                            </a>
+                          )
+                        else return <p>Cannot Be Tracked</p>;
                       })()}
                     </TableCell>
                     <TableCell align="center">{o.customer_reference}</TableCell>
