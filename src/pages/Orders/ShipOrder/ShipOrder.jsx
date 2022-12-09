@@ -4,6 +4,8 @@ import React, { useState, useRef } from "react";
 import { useLocation, useHistory } from "react-router-dom";
 // Styles
 import classes from "./ShipOrder.module.scss";
+// Components
+import Spinner from "../../../components/global/Spinner/Spinner";
 // Material UI
 import Table from "@material-ui/core/Table";
 import TableBody from "@material-ui/core/TableBody";
@@ -30,6 +32,7 @@ const ShipOrder = () => {
     const [carrier, setCarrier] = useState("");
     const [service, setService] = useState("");
     const [tracking, setTracking] = useState("");
+    const [btnLoading, setBtnLoading] = useState(false);
     const [customsDescInputs, setCustomsDescInputs] = useState([]);
     const [customsValueInputs, setCustomsValueInputs] = useState([]);
     const [customsInfo, setCustomsInfo] = useState([]);
@@ -88,6 +91,12 @@ const ShipOrder = () => {
             shipment_id: location.state.shipment_id,
             rateId: rate.id,
         };
+
+        // Disable button on click
+        setBtnLoading(true);
+        // Set button to spinner while loading.
+        e.target.innerHTML = `<div class="${classes.spinner}"></div>`;
+
         axios
             .post(
                 `${import.meta.env.VITE_APP_API_URL}/order/add-update/do-ship`,
@@ -326,6 +335,7 @@ const ShipOrder = () => {
                                         <Button
                                             variant="contained"
                                             color="primary"
+                                            disabled={btnLoading}
                                             onClick={e => pickRate(e, rate)}>
                                             Pick this rate
                                         </Button>
@@ -334,6 +344,7 @@ const ShipOrder = () => {
                                     <TableCell align="center">
                                         <Button
                                             variant="contained"
+                                            disabled={btnLoading}
                                             onClick={e => pickRate(e, rate)}>
                                             Pick this rate
                                         </Button>

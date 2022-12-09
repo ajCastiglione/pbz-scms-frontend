@@ -1,8 +1,8 @@
-.Container{
+.Container {
     padding: 2rem 1rem;
 }
 
-p{
+p {
     font-size: 1rem;
     margin: 1rem 0;
 }
@@ -15,14 +15,30 @@ p{
 }
 
 .Manual {
-
-    &__inputs{
+    &__inputs {
         display: flex;
         & > * {
             margin-right: 1rem;
         }
-        input{
-            padding: .2rem;
+        input {
+            padding: 0.2rem;
         }
     }
+}
+
+@keyframes spinner {
+    0% {
+        transform: rotate(0deg);
+    }
+    100% {
+        transform: rotate(360deg);
+    }
+}
+.spinner {
+    width: 25px;
+    height: 25px;
+    border: 5px solid #f3f3f3; /* Light grey */
+    border-top: 5px solid #383636; /* Black */
+    border-radius: 50%;
+    animation: spinner 1.5s linear infinite;
 }
