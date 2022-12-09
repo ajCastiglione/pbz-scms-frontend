@@ -89,7 +89,7 @@ const Upload = props => {
         /* axios.get(`https://scms-api.herokuapp.com/uploads/test.csv`) */
         /* axios.get(`http://localhost:4000/uploads/test.csv`) */
         axios
-            .get(`${process?.env.REACT_APP_API_URL}/uploads/test.csv`)
+            .get(`${import.meta.env.VITE_APP_API_URL}/uploads/test.csv`)
             .then(res => {})
             .catch(err => {
                 window.alert(err.response.data.message);
@@ -150,7 +150,7 @@ const Upload = props => {
                                       <TableCell align="center">
                                           <a
                                               target="_blank"
-                                              href={`${process.env.REACT_APP_API_URL}/${row.filename}`}
+                                              href={`${import.meta.env.VITE_APP_API_URL}/${row.filename}`}
                                               rel="noreferrer">
                                               {row.filename}
                                           </a>

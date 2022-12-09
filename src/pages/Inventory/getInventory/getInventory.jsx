@@ -98,7 +98,7 @@ const GetInventory = () => {
     };
 
     return (
-        <React.Fragment>
+        <>
             <Search />
             {loading ? (
                 <LargeSpinner />
@@ -120,7 +120,7 @@ const GetInventory = () => {
                     />
                 </div>
             )}
-        </React.Fragment>
+        </>
     );
 };
 

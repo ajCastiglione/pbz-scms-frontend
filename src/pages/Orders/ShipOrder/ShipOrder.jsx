@@ -90,7 +90,7 @@ const ShipOrder = () => {
         };
         axios
             .post(
-                `${process?.env.REACT_APP_API_URL}/order/add-update/do-ship`,
+                `${import.meta.env.VITE_APP_API_URL}/order/add-update/do-ship`,
                 data
             )
             .then(res => {
