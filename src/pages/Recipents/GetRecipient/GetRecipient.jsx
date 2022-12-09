@@ -12,6 +12,7 @@ import classes from "./GetRecipient.module.scss";
 // Components
 import LargeSpinner from "../../../components/global/LargeSpinner/LargeSpinner";
 import DataTable from "../../../components/global/DataTable/DataTable";
+import Search from "../../../components/global/Search/Search";
 // Material UI
 import Pagination from "@material-ui/lab/Pagination";
 
@@ -62,7 +63,12 @@ const GetRecipient = () => {
     };
 
     return (
-        <React.Fragment>
+        <>
+            <Search
+                onSearch={actions.searchRecipients}
+                label="Search for recipient"
+                placeholder="Enter 'contact' here..."
+            />
             {loading ? (
                 <LargeSpinner />
             ) : (
@@ -82,7 +88,7 @@ const GetRecipient = () => {
                     />
                 </div>
             )}
-        </React.Fragment>
+        </>
     );
 };
 

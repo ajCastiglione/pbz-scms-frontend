@@ -1,15 +1,13 @@
 import { useDispatch } from "react-redux";
-import * as actions from "../../../store/actions/index";
 import { debounce } from "../../../utils";
 import classes from "./Search.module.scss";
 import TextField from "@material-ui/core/TextField";
 
-function Search() {
+function Search({ onSearch, label, placeholder }) {
     const dispatch = useDispatch();
 
     const onChange = e => {
-        dispatch(actions.searchInventoryTerm(e.target.value));
-        dispatch(actions.searchInventory(e.target.value));
+        dispatch(onSearch(e.target.value));
     };
 
     const debouncedChangeHandler = debounce(onChange, 500);
@@ -18,9 +16,9 @@ function Search() {
         <div className={classes.search_wrapper}>
             <TextField
                 id="outlined-search"
-                label="Search by name"
+                label={label}
                 type="search"
-                placeholder="Test 123..."
+                placeholder={placeholder}
                 variant="outlined"
                 onChange={debouncedChangeHandler}
             />

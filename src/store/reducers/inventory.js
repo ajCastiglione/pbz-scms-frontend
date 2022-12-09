@@ -16,11 +16,6 @@ const reducer = (state = initialState, action) => {
                 ...state,
                 loading: true,
             };
-        case actionTypes.SEARCH_INVENTORY_TERM:
-            return {
-                ...state,
-                searchTerm: action.searchTerm,
-            };
         case actionTypes.FETCH_INVENTORY_SUCCESS:
             return {
                 ...state,

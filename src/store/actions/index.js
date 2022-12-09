@@ -1,4 +1,4 @@
-export { getRecipients, createRecipient } from "./recipients";
+export { getRecipients, searchRecipients, createRecipient } from "./recipients";
 
 export { authUser, authCheckState, logout, getSudo, changeSudo } from "./auth";
 
@@ -7,7 +7,6 @@ export {
     createInventory,
     editEnventory,
     searchInventory,
-    searchInventoryTerm,
     clearInventoryNotification,
 } from "./inventory";
 

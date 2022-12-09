@@ -11,11 +11,6 @@ export const fetchInventorySuccess = (inventory, page) => ({
     page,
 });
 
-export const searchInventoryTerm = searchTerm => ({
-    type: actionTypes.SEARCH_INVENTORY_TERM,
-    searchTerm,
-});
-
 export const fetchInventoryFailed = error => ({
     type: actionTypes.FETCH_INVENTORY_FAILED,
     error,

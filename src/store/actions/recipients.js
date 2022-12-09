@@ -1,70 +1,91 @@
-import axios from 'axios';
-import * as actionTypes from './actionTypes';
+import axios from "axios";
+import * as actionTypes from "./actionTypes";
 
-export const fetchRecipientsStart = () =>{
-    return{
-        type: actionTypes.FETCH_RECIPIENTS_START
-    }
+export const fetchRecipientsStart = () => {
+    return {
+        type: actionTypes.FETCH_RECIPIENTS_START,
+    };
+};
 
-}
-
-export const fetchRecipientsSuccess = (recipients, total) => ({
+export const fetchRecipientsSuccess = (recipients, total, page) => ({
     type: actionTypes.FETCH_RECIPIENTS_SUCCESS,
     recipients,
-    total
-})
+    total,
+    page,
+});
 
-export const fetchRecipientsFailed = (error) => ({
+export const fetchRecipientsFailed = error => ({
     type: actionTypes.FETCH_RECIPIENTS_FAILED,
-    error
-})
+    error,
+});
 
 export const createRecipientStart = () => {
     return {
-    type: actionTypes.CREATE_RECIPIENT_START
-    }
-}
-
-export const createRecipientSuccess = (response) => {
-    return {
-        type: actionTypes.CREATE_RECIPIENT_SUCCESS,
-        response
-    }
-}
-
-export const createRecipientFailed = (error) => {
-    return {
-        type: actionTypes.CREATE_RECIPIENT_FAILED,
-        error
-    }
-}
-
-export const getRecipients = (page) => {
-    return dispatch => {
-        dispatch(fetchRecipientsStart())
-        axios.get(`/recipient/add-update?page=${page}`)
-        .then(res => {
-            dispatch(fetchRecipientsSuccess(res.data.data, res.data.total))
-        })
-        .catch(err => {
-            window.alert(err.response.data.message);
-            dispatch(fetchRecipientsFailed(err.response.data))
-        })
-    }
+        type: actionTypes.CREATE_RECIPIENT_START,
+    };
 };
 
-export const createRecipient = (data) => {
+export const createRecipientSuccess = response => {
+    return {
+        type: actionTypes.CREATE_RECIPIENT_SUCCESS,
+        response,
+    };
+};
+
+export const createRecipientFailed = error => {
+    return {
+        type: actionTypes.CREATE_RECIPIENT_FAILED,
+        error,
+    };
+};
+
+export const getRecipients = page => {
     return dispatch => {
-        dispatch(createRecipientStart())
-        if(data) {
-            axios.post('/recipient/add-update', data)
+        dispatch(fetchRecipientsStart());
+        axios
+            .get(`/recipient/add-update?page=${page}`)
             .then(res => {
-                dispatch(createRecipientSuccess(res.data))
+                dispatch(
+                    fetchRecipientsSuccess(res.data.data, res.data.total, page)
+                );
             })
             .catch(err => {
                 window.alert(err.response.data.message);
-                dispatch(createRecipientFailed(err.response))
+                dispatch(fetchRecipientsFailed(err.response.data));
+            });
+    };
+};
+
+export const searchRecipients = (query = "") => {
+    return (dispatch, getSate) => {
+        dispatch(fetchRecipientsStart());
+        const page = getSate().recipients.page;
+        axios
+            .get(`/recipient/add-update?page=${page}&searchTerm=${query}`)
+            .then(res => {
+                dispatch(
+                    fetchRecipientsSuccess(res.data.data, res.data.total, page)
+                );
             })
+            .catch(err => {
+                window.alert(err.response.data.message);
+            });
+    };
+};
+
+export const createRecipient = data => {
+    return dispatch => {
+        dispatch(createRecipientStart());
+        if (data) {
+            axios
+                .post("/recipient/add-update", data)
+                .then(res => {
+                    dispatch(createRecipientSuccess(res.data));
+                })
+                .catch(err => {
+                    window.alert(err.response.data.message);
+                    dispatch(createRecipientFailed(err.response));
+                });
         }
-    }
-}
+    };
+};

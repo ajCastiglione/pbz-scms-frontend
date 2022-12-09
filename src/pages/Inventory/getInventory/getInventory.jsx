@@ -99,7 +99,11 @@ const GetInventory = () => {
 
     return (
         <>
-            <Search />
+            <Search
+                onSearch={actions.searchInventory}
+                label="Search by name"
+                placeholder="Enter 'name' here..."
+            />
             {loading ? (
                 <LargeSpinner />
             ) : (
