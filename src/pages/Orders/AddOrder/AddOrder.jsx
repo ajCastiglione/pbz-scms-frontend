@@ -10,6 +10,7 @@ import classes from "./AddOrder.module.scss";
 // Components
 import Spinner from "../../../components/global/Spinner/Spinner";
 import LargeSpinner from "../../../components/global/LargeSpinner/LargeSpinner";
+import Search from "../../../components/global/Search/Search";
 // Material UI
 import Table from "@material-ui/core/Table";
 import TableBody from "@material-ui/core/TableBody";
@@ -277,6 +278,11 @@ const AddOrder = () => {
                     {/************************************************************************ */}
 
                     <h1>Add more to the order.</h1>
+                    <Search
+                        onSearch={actions.searchInventory}
+                        label="Search by name"
+                        placeholder="Enter 'name' here..."
+                    />
                     <TableContainer component={Paper}>
                         <Table aria-label="simple table">
                             <TableHead>
