@@ -133,6 +133,21 @@ const ShipMethod = () => {
                 });
             }
         });
+        // Add list rates for carriers that don't have discounts
+        if (
+            !discounts.some(
+                discount =>
+                    rate.carrier === discount.carrier &&
+                    rate.service === discount.service
+            )
+        ) {
+            listRate.push({
+                ...rate,
+                value: Number(
+                    rate.list_rate + location.state.insurance_cost
+                ).toFixed(2),
+            });
+        }
     });
     return (
         <React.Fragment>
