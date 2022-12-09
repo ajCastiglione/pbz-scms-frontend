@@ -316,6 +316,10 @@ const ShipOrder = () => {
                                         )}{" "}
                                     {rate.list_currency}
                                 </TableCell>
+                                {console.log(
+                                    location.state.order.requested_service?.toLowerCase(),
+                                    rate.service?.toLowerCase()
+                                )}
                                 {location.state.order.requested_service?.toLowerCase() ===
                                 rate.service?.toLowerCase() ? (
                                     <TableCell align="center">
