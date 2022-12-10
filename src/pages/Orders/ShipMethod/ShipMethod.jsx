@@ -35,19 +35,19 @@ const ShipMethod = () => {
     const order = location?.state?.order;
     // State consts
     const lineItems = location.state.lineItem;
-    const shipRates = location.state.shipRayes;
+    const shipRates = location.state.shipRates;
     const [insuranceValue, setInsuranceValue] = useState(
         order?.insurance_value || ""
     );
     const [signature, setSignature] = useState(
         order.signature_option || "NONE"
     );
-    const selectedShipping = location?.state?.shipRayes?.find(
+    const selectedShipping = location?.state?.shipRates?.find(
         shipRate =>
             shipRate.carrier === order?.requested_carrier &&
             shipRate.service === order?.requested_service
     );
-    const actualSelectedShipping = location?.state?.shipRayes?.find(
+    const actualSelectedShipping = location?.state?.shipRates?.find(
         shipRate =>
             shipRate.carrier === order?.actual_carrier &&
             shipRate.service === order?.actual_service
@@ -55,10 +55,10 @@ const ShipMethod = () => {
     const [shippingMethod, setShippingMethod] = useState([
         actualSelectedShipping?.carrier ||
             selectedShipping?.carrier ||
-            location.state.shipRayes[0].carrier,
+            location.state.shipRates[0].carrier,
         actualSelectedShipping?.service ||
             selectedShipping?.service ||
-            location.state.shipRayes[0].service,
+            location.state.shipRates[0].service,
     ]);
     const [customerReference, setCustomerReference] = useState(
         order?.customer_reference || ""

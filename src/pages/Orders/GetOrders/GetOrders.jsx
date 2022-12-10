@@ -313,9 +313,7 @@ const GetOrders = () => {
                       {o.createdAt?.slice(0, 10)}
                     </TableCell>
                     <TableCell align="center">
-                      {o.createdAt === o.updatedAt
-                        ? null
-                        : o.updatedAt?.slice(0, 10)}
+                      {o.updatedAt?.slice(0, 10)}
                     </TableCell>
                     <TableCell align="center">
                       {o.shippedAt ? o.shippedAt.slice(0, 10) : null}
