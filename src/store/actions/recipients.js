@@ -7,11 +7,17 @@ export const fetchRecipientsStart = () => {
     };
 };
 
-export const fetchRecipientsSuccess = (recipients, total, page) => ({
+export const fetchRecipientsSuccess = (
+    recipients,
+    total,
+    page,
+    query = ""
+) => ({
     type: actionTypes.FETCH_RECIPIENTS_SUCCESS,
     recipients,
     total,
     page,
+    query,
 });
 
 export const fetchRecipientsFailed = error => ({
@@ -40,13 +46,14 @@ export const createRecipientFailed = error => {
 };
 
 export const getRecipients = page => {
-    return dispatch => {
+    return (dispatch, getState) => {
         dispatch(fetchRecipientsStart());
+        const query = getState().recipients.query;
         axios
-            .get(`/recipient/add-update?page=${page}`)
+            .get(`/recipient/add-update?page=${page}&searchTerm=${query}`)
             .then(res => {
                 dispatch(
-                    fetchRecipientsSuccess(res.data.data, res.data.total, page)
+                    fetchRecipientsSuccess(res.data.data, res.data.total, page, query)
                 );
             })
             .catch(err => {
@@ -64,7 +71,12 @@ export const searchRecipients = (query = "") => {
             .get(`/recipient/add-update?page=${page}&searchTerm=${query}`)
             .then(res => {
                 dispatch(
-                    fetchRecipientsSuccess(res.data.data, res.data.total, page)
+                    fetchRecipientsSuccess(
+                        res.data.data,
+                        res.data.total,
+                        page,
+                        query
+                    )
                 );
             })
             .catch(err => {

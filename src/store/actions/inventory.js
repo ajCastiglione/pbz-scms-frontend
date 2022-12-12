@@ -5,10 +5,11 @@ export const fetchInventoryStart = () => ({
     type: actionTypes.FETCH_INVENTORY_START,
 });
 
-export const fetchInventorySuccess = (inventory, page) => ({
+export const fetchInventorySuccess = (inventory, page, query = "") => ({
     type: actionTypes.FETCH_INVENTORY_SUCCESS,
     inventory,
     page,
+    query,
 });
 
 export const fetchInventoryFailed = error => ({
@@ -43,12 +44,13 @@ export const clearInventoryNotification = () => {
 };
 
 export const getInventory = page => {
-    return dispatch => {
+    return (dispatch, getState) => {
         dispatch(fetchInventoryStart());
+        const query = getState().inventory.query;
         axios
-            .get(`/inventory/add-update?page=${page}`)
+            .get(`/inventory/add-update?page=${page}&searchTerm=${query}`)
             .then(res => {
-                dispatch(fetchInventorySuccess(res.data, page));
+                dispatch(fetchInventorySuccess(res.data, page, query));
             })
             .catch(err => {
                 window.alert(err.response.data.message);
@@ -63,7 +65,7 @@ export const searchInventory = (query = "") => {
         axios
             .get(`/inventory/add-update?page=${page}&searchTerm=${query}`)
             .then(res => {
-                dispatch(fetchInventorySuccess(res.data, page));
+                dispatch(fetchInventorySuccess(res.data, page, query));
             })
             .catch(err => {
                 window.alert(err.response.data.message);

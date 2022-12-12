@@ -7,6 +7,7 @@ const initialState = {
     message: "",
     error: "",
     recipient: {},
+    query: "",
 };
 
 const reducer = (state = initialState, action) => {
@@ -23,6 +24,7 @@ const reducer = (state = initialState, action) => {
                 total: action.total,
                 page: action.page,
                 loading: false,
+                query: action.query,
             };
         case actionTypes.FETCH_RECIPIENTS_FAILED:
             return {

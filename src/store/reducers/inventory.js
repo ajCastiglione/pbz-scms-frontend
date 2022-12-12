@@ -7,6 +7,7 @@ const initialState = {
     loading: false,
     message: "",
     error: "",
+    query: "",
 };
 
 const reducer = (state = initialState, action) => {
@@ -23,6 +24,7 @@ const reducer = (state = initialState, action) => {
                 total: action.inventory.total,
                 page: action.page,
                 loading: false,
+                query: action.query,
             };
         case actionTypes.CREATE_INVENTORY_START:
             return {
