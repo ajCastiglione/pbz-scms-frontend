@@ -4,8 +4,6 @@ import React, { useState, useRef } from "react";
 import { useLocation, useHistory } from "react-router-dom";
 // Styles
 import classes from "./ShipOrder.module.scss";
-// Components
-import Spinner from "../../../components/global/Spinner/Spinner";
 // Material UI
 import Table from "@material-ui/core/Table";
 import TableBody from "@material-ui/core/TableBody";
@@ -326,10 +324,6 @@ const ShipOrder = () => {
                                         )}{" "}
                                     {rate.list_currency}
                                 </TableCell>
-                                {console.log(
-                                    location.state.order.requested_service?.toLowerCase(),
-                                    rate.service?.toLowerCase()
-                                )}
                                 {location.state.order.requested_service?.toLowerCase() ===
                                 rate.service?.toLowerCase() ? (
                                     <TableCell align="center">
