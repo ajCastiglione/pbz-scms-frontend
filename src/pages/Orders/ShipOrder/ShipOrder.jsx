@@ -24,6 +24,7 @@ const ShipOrder = () => {
     const location = useLocation();
     // State Consts
     let boxes = [];
+    console.log(location.state)
     location.state.box?.forEach(box => {
         boxes.push({ weight: box[1] });
     });
