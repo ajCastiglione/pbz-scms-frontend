@@ -73,6 +73,8 @@ const DataTable = (props) => {
                       </TableCell>)
                       case 'splitCase':
                         return <TableCell align="center" key={row['id']}><Button variant="contained" color="primary"  onClick={(key) => split(row['id'])}>split</Button></TableCell>
+                      case 'remove':
+                        return <TableCell align="center" key={row['id']}><Button variant="contained" color="secondary"  onClick={(key) => props.remove(row['id'])}>Remove</Button></TableCell>
                     default:
                       return <TableCell align="center">{row[key]}</TableCell>
                   }

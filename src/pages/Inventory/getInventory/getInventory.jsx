@@ -52,6 +52,7 @@ const GetInventory = () => {
         "Width (inches)",
         "Height (inches)",
         "Ship Ready",
+        "Remove",
     ];
     const presentRows = [];
     rows.forEach(row => {
@@ -72,6 +73,7 @@ const GetInventory = () => {
             width: row.width,
             height: row.height,
             shipReady: row.ship_ready ? "Ready" : "Not Ready",
+            remove: "Remove",
         });
     });
     // Changing page handler
@@ -97,6 +99,19 @@ const GetInventory = () => {
             });
     };
 
+    const remove = id => {
+        if (window.confirm("Are you sure you want to delete this item?")) {
+            axios
+                .post("/inventory/delete", { id })
+                .then(res => {
+                    dispatch(actions.getInventory(page));
+                })
+                .catch(err => {
+                    window.alert(err.response.data.message);
+                });
+        }
+    };
+
     return (
         <>
             <Search
@@ -112,6 +127,7 @@ const GetInventory = () => {
                     headers={headers}
                     editClicked={editEnventory}
                     split={split}
+                    remove={remove}
                 />
             )}
             {pages > 1 && (
