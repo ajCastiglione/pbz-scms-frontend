@@ -1,3 +1,4 @@
+import { useEffect } from "react";
 import { useDispatch } from "react-redux";
 import { debounce } from "../../../utils";
 import classes from "./Search.module.scss";
@@ -9,6 +10,12 @@ function Search({ onSearch, label, placeholder }) {
     const onChange = e => {
         dispatch(onSearch(e.target.value));
     };
+
+    useEffect(() => {
+        return () => {
+            dispatch(onSearch(""));
+        };
+    }, [dispatch, onSearch]);
 
     const debouncedChangeHandler = debounce(onChange, 500);
 
