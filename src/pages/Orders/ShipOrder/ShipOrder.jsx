@@ -290,13 +290,13 @@ const ShipOrder = () => {
                                         if (
                                             rate.carrier.toUpperCase() ===
                                                 "FEDEX" &&
-                                            (location.state.order.requested_service.toUpperCase() ===
+                                            (location.state.order.requested_service?.toUpperCase() ===
                                                 "FEDEXMEDIUMBOX" ||
-                                                location.state.order.requested_service.toUpperCase() ===
+                                                location.state.order.requested_service?.toUpperCase() ===
                                                     "FEDEXSMALLBOX" ||
-                                                location.state.order.requested_service.toUpperCase() ===
+                                                location.state.order.requested_service?.toUpperCase() ===
                                                     "FEDEXPAK" ||
-                                                location.state.order.requested_service.toUpperCase() ===
+                                                location.state.order.requested_service?.toUpperCase() ===
                                                     "FEDEXENVELOPE") &&
                                             rate.custom_predefined_package
                                         )
