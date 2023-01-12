@@ -25,7 +25,7 @@ const PackingSlip = () => {
     }, []);
 
     return (
-        <React.Fragment>
+        <div>
             <div className={classes.Container}>
                 <h1>Packing Slip</h1>
                 {data && data.order.customer_reference ? (
@@ -75,7 +75,7 @@ const PackingSlip = () => {
                 <p>Thank you for your order.</p>
                 <p>{date.toString()}</p>
             </div>
-        </React.Fragment>
+        </div>
     );
 };
 

@@ -14,7 +14,7 @@ const Users = () => {
     ];
 
     return (
-        <React.Fragment>
+        <div>
             <SubNav subRoutes={routes}></SubNav>
             <Switch>
                 <Route
@@ -25,7 +25,7 @@ const Users = () => {
                     path={`${route.path}/add-update/:id`}
                     component={CreateUser}></Route>
             </Switch>
-        </React.Fragment>
+        </div>
     );
 };
 

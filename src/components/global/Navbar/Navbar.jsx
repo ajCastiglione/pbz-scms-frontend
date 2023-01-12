@@ -130,7 +130,7 @@ const Navbar = () => {
     }
 
     return (
-        <React.Fragment>
+        <div>
             {pick !== 1 ? (
                 <nav className={classes.Nav}>
                     <h1 className={classes.Nav__heading}>
@@ -139,7 +139,7 @@ const Navbar = () => {
                     {lowerNav}
                 </nav>
             ) : null}
-        </React.Fragment>
+        </div>
     );
 };
 

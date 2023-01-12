@@ -97,7 +97,7 @@ const Upload = props => {
     };
 
     return (
-        <React.Fragment>
+        <div>
             <form
                 className={classes.filters__container}
                 onSubmit={e => e.preventDefault()}>
@@ -171,7 +171,7 @@ const Upload = props => {
                     />
                 </div>
             )}
-        </React.Fragment>
+        </div>
     );
 };
 

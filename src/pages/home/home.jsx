@@ -157,7 +157,7 @@ const Home = props => {
     };
 
     return (
-        <React.Fragment>
+        <div>
             <Box my={2} px={2}>
                 <h2>Pending Orders</h2>
             </Box>
@@ -559,7 +559,7 @@ const Home = props => {
                     ) : null}
                 </>
             )}
-        </React.Fragment>
+        </div>
     );
 };
 

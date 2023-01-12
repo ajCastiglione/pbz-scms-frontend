@@ -149,7 +149,7 @@ const CreateInventory = () => {
   }
 
   return (
-    <React.Fragment>
+    <div>
       <Box width="100%" display="flex" justifyContent="center" p={2}>
         <form onSubmit={createInventory} className={classes.Form}>
           <h1>Create Inventory</h1>
@@ -251,7 +251,7 @@ const CreateInventory = () => {
           </Button>
         </form>
       </Box>
-    </React.Fragment>
+    </div>
   );
 };
 

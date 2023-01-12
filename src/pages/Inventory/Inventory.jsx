@@ -21,7 +21,7 @@ const Inventory = () => {
 
 
     return (
-        <React.Fragment>
+        <div>
             <SubNav subRoutes={subRoutes}></SubNav>
             <Switch>
                 <Route path={`${route.path}/`} component={getInventory} exact></Route>
@@ -29,7 +29,7 @@ const Inventory = () => {
                 <Route path={`${route.path}/import`} component={ImportInventory} exact></Route>
                 <Route path={`${route.path}/history`} component={UploadHistory} exact></Route>
             </Switch>
-        </React.Fragment>
+        </div>
     )
 }
 

@@ -40,7 +40,7 @@ const Discounts = () => {
     };
 
     return (
-        <React.Fragment>
+        <div>
             {loading ? (
                 <LargeSpinner />
             ) : (
@@ -50,7 +50,7 @@ const Discounts = () => {
                     adjustDiscount={adjustDiscount}
                 />
             )}
-        </React.Fragment>
+        </div>
     );
 };
 

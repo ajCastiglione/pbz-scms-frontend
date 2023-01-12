@@ -18,7 +18,7 @@ const Recipents = () => {
     ];
 
     return (
-        <React.Fragment>
+        <div>
             <SubNav subRoutes={routes}></SubNav>
             <Switch>
                 <Route
@@ -35,7 +35,7 @@ const Recipents = () => {
                     path={`${route.path}/history`}
                     component={UploadHistory}></Route>
             </Switch>
-        </React.Fragment>
+        </div>
     );
 };
 

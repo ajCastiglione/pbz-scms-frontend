@@ -82,7 +82,7 @@ const CreateUser = () => {
     const loading = useSelector(state => state.users.loading);
 
     return (
-        <React.Fragment>
+        <div>
             <Box width="100%" display="flex" justifyContent="center" p={2}>
                 <form
                     onSubmit={e => e.preventDefault()}
@@ -185,7 +185,7 @@ const CreateUser = () => {
                     </Button>
                 </form>
             </Box>
-        </React.Fragment>
+        </div>
     );
 };
 

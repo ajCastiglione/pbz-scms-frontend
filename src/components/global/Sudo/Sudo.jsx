@@ -21,7 +21,7 @@ const Sudo = () => {
   }, [location?.pathname]);
 
   return (
-    <React.Fragment>
+    <div>
       {pick !== 1 &&
       (role === "warehouse" || role === "superadmin") &&
       location.pathname !== "/members" &&
@@ -36,7 +36,7 @@ const Sudo = () => {
           </p>
         </div>
       ) : null}
-    </React.Fragment>
+    </div>
   );
 };
 

@@ -176,7 +176,7 @@ const CreateOrder = props => {
                                 InputProps={{
                                     ...params.InputProps,
                                     endAdornment: (
-                                        <React.Fragment>
+                                        <div>
                                             {loading ? (
                                                 <CircularProgress
                                                     color="inherit"
@@ -184,7 +184,7 @@ const CreateOrder = props => {
                                                 />
                                             ) : null}
                                             {params.InputProps.endAdornment}
-                                        </React.Fragment>
+                                        </div>
                                     ),
                                 }}
                             />

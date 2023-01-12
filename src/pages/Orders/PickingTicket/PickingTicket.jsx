@@ -21,7 +21,7 @@ const PickingTicket = () => {
   }, []);
 
   return (
-    <React.Fragment>
+    <div>
       <div className={classes.Container}>
         <h1>Pick Ticket</h1>
         {data && data.order.tracking ? (
@@ -77,7 +77,7 @@ const PickingTicket = () => {
         <p>Thank you for your order.</p>
         <p>{date.toString()}</p>
       </div>
-    </React.Fragment>
+    </div>
   );
 };
 

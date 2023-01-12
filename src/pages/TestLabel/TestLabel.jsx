@@ -24,13 +24,13 @@ const TestLabel = () => {
     }, [])
 
     return (
-        <React.Fragment>
+        <div>
             <div style={{display: 'flex',flexDirection: 'column' ,alignItems: 'center', padding: '1rem'}}>
                 {message ? <h1>{message}</h1> : null}
                 <h3>Test label: {loading && 'Loading...'}{id}</h3>
                 <img src={img} alt="Test label" style={{ width: '50%', height: '50%' }} />
             </div>
-        </React.Fragment>
+        </div>
     )
 }
 

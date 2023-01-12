@@ -150,7 +150,7 @@ const ShipMethod = () => {
         }
     });
     return (
-        <React.Fragment>
+        <div>
             {loading ? (
                 <LargeSpinner />
             ) : location.state ? (
@@ -382,7 +382,7 @@ const ShipMethod = () => {
             ) : (
                 <Redirect to="/order?page=1" />
             )}
-        </React.Fragment>
+        </div>
     );
 };
 

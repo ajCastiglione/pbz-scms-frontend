@@ -204,10 +204,10 @@ const ExportOrder = () => {
                                 InputProps={{
                                     ...params.InputProps,
                                     endAdornment: (
-                                    <React.Fragment>
+                                    <div>
                                         {loading ? <CircularProgress color="inherit" size={20} /> : null}
                                         {params.InputProps.endAdornment}
-                                    </React.Fragment>
+                                    </div>
                                     ),
                                 }}
                             />

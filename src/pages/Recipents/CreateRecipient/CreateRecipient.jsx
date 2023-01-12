@@ -75,7 +75,7 @@ const CreateRecipient = () => {
     const loading = useSelector(state => state.recipients.loading)
 
     return (
-        <React.Fragment>
+        <div>
             <Box width="100%" display="flex" justifyContent="center" p={2} >
 
                 <form onSubmit={createRecipient} className={classes.Form}>
@@ -99,7 +99,7 @@ const CreateRecipient = () => {
                 </form>
 
             </Box>
-        </React.Fragment>
+        </div>
     )
 }
 
