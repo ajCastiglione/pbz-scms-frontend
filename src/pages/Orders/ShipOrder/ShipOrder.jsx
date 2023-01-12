@@ -330,7 +330,7 @@ const ShipOrder = () => {
                                         <Button
                                             variant="contained"
                                             color="primary"
-                                            disabled={btnLoading}
+                                            // disabled={btnLoading}
                                             onClick={e => pickRate(e, rate)}>
                                             Pick this rate
                                         </Button>
@@ -339,7 +339,7 @@ const ShipOrder = () => {
                                     <TableCell align="center">
                                         <Button
                                             variant="contained"
-                                            disabled={btnLoading}
+                                            // disabled={btnLoading}
                                             onClick={e => pickRate(e, rate)}>
                                             Pick this rate
                                         </Button>
