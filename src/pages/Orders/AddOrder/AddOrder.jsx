@@ -148,7 +148,7 @@ const AddOrder = () => {
     };
 
     return (
-        <React.Fragment>
+        <div>
             {location.state ? (
                 <div>
                     <h2>
@@ -400,7 +400,7 @@ const AddOrder = () => {
                     />
                 </div>
             )}
-        </React.Fragment>
+        </div>
     );
 };
 

@@ -138,26 +138,26 @@ const ShipOrder = () => {
         // Append additional to customs description.
         setCustomsDescInputs(prev => [
             ...prev,
-            <>
+            <div>
                 <br />
                 <input
                     key={`cdesc-${prev.length}`}
                     type="text"
                     onChange={e => changeDesc(e, parseInt(prev.length + 1))}
                 />
-            </>,
+            </div>,
         ]);
         // Append additional to customs value.
         setCustomsValueInputs(prev => [
             ...prev,
-            <>
+            <div>
                 <br />
                 <input
                     key={`cvalue-${prev.length}`}
                     type="number"
                     onChange={e => changeValue(e, parseInt(prev.length + 1))}
                 />
-            </>,
+            </div>,
         ]);
     };
 

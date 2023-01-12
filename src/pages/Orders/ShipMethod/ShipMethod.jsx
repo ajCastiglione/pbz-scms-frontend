@@ -154,7 +154,7 @@ const ShipMethod = () => {
             {loading ? (
                 <LargeSpinner />
             ) : location.state ? (
-                <>
+                <div>
                     <div className={classes.RecipientDetails}>
                         <h2>
                             Recipient: {location.state.order.recipient.name}{" "}
@@ -378,7 +378,7 @@ const ShipMethod = () => {
                             Submit Shipment
                         </Button>
                     </div>
-                </>
+                </div>
             ) : (
                 <Redirect to="/order?page=1" />
             )}

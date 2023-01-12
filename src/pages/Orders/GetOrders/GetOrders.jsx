@@ -169,7 +169,7 @@ const GetOrders = () => {
 
   return (
     
-    <React.Fragment>
+    <div>
       <form
         className={classes.filters__container}
         onSubmit={(e) => e.preventDefault()}
@@ -421,7 +421,7 @@ const GetOrders = () => {
           />
         </div>
       )}
-    </React.Fragment>
+    </div>
   );
 };
 

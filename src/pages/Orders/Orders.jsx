@@ -19,7 +19,7 @@ const Order = () => {
     ]
 
     return (
-        <React.Fragment>
+        <div>
             <SubNav subRoutes={subRoutes}></SubNav>
             <Switch>
                 <Route path={`${route.path}/`} component={GetOrders} exact></Route>
@@ -28,7 +28,7 @@ const Order = () => {
                 <Route path={`${route.path}/export`} component={ExportOrder} exact></Route>
                 <Route path={`${route.path}/history`} component={UploadHistory} exact></Route>
             </Switch>
-        </React.Fragment>
+        </div>
     )
 }
 
