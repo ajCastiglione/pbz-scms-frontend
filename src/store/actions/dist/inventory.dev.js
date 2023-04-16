@@ -1,11 +1,11 @@
-"use strict";
+
 
 function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
 
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.editEnventory = exports.createInventory = exports.getInventory = exports.createInventoryFailed = exports.createInventorySuccess = exports.createInventoryStart = exports.fetchInventoryFailed = exports.fetchInventorySuccess = exports.fetchInventoryStart = void 0;
+exports.editInventory = exports.createInventory = exports.getInventory = exports.createInventoryFailed = exports.createInventorySuccess = exports.createInventoryStart = exports.fetchInventoryFailed = exports.fetchInventorySuccess = exports.fetchInventoryStart = void 0;
 
 var actionTypes = _interopRequireWildcard(require("./actionTypes"));
 
@@ -98,7 +98,7 @@ var createInventory = function createInventory(data) {
 
 exports.createInventory = createInventory;
 
-var editEnventory = function editEnventory(data) {
+var editInventory = function editInventory(data) {
   return function (dispatch) {
     dispatch(createInventoryStart());
 
@@ -110,4 +110,4 @@ var editEnventory = function editEnventory(data) {
   };
 };
 
-exports.editEnventory = editEnventory;
+exports.editInventory = editInventory;

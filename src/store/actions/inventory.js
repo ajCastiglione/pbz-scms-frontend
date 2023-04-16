@@ -88,7 +88,7 @@ export const createInventory = data => {
     };
 };
 
-export const editEnventory = data => {
+export const editInventory = data => {
     return dispatch => {
         dispatch(createInventoryStart());
         axios

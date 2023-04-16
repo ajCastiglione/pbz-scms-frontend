@@ -5,7 +5,7 @@ export { authUser, authCheckState, logout, getSudo, changeSudo } from "./auth";
 export {
     getInventory,
     createInventory,
-    editEnventory,
+    editInventory,
     searchInventory,
     clearInventoryNotification,
 } from "./inventory";

@@ -92,7 +92,7 @@ const CreateInventory = () => {
     };
     if (location.state) {
       data = { ...data, id: location.state.id };
-      dispatch(actions.editEnventory(data));
+      dispatch(actions.editInventory(data));
     } else {
       dispatch(actions.createInventory(data));
     }

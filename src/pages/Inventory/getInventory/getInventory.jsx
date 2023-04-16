@@ -32,7 +32,7 @@ const GetInventory = () => {
         dispatch(actions.getInventory(page));
     }, [page]);
     // Redux state getters
-    const pages = useSelector(state => Math.ceil(state.inventory.total / 10));
+    const pages = useSelector(state => Math.ceil(state.inventory.total / 100));
     const rows = useSelector(state => state.inventory.inventory);
     const loading = useSelector(state => state.inventory.loading);
     // Refactoring inventory data to present it
@@ -82,7 +82,7 @@ const GetInventory = () => {
         setPage(value);
     };
 
-    const editEnventory = id => {
+    const editInventory = id => {
         const filteredInv = rows.filter(row => row.id === id);
         const inv = filteredInv[0];
         history.push(`${route.path}add-update/${id}`, inv);
@@ -125,7 +125,7 @@ const GetInventory = () => {
                 <DataTable
                     rows={presentRows}
                     headers={headers}
-                    editClicked={editEnventory}
+                    editClicked={editInventory}
                     split={split}
                     remove={remove}
                 />
