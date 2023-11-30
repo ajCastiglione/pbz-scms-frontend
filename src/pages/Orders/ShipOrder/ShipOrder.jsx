@@ -34,13 +34,16 @@ const ShipOrder = () => {
   const [btnLoading, setBtnLoading] = useState(false);
   const [customsDescInputs, setCustomsDescInputs] = useState([]);
   const [customsTariffInputs, setCustomsTariffInputs] = useState([]);
+  const [boxDimensionsInputs, setBoxDimensionsInputs] = useState([]);
   const [customsValueInputs, setCustomsValueInputs] = useState([]);
   const [customsInfo, setCustomsInfo] = useState([]);
+  const [boxDimInfo, setBoxDimInfo] = useState([]);
   const history = useHistory();
   // Refs
   const customsDescRef = useRef();
   const customsTariffRef = useRef();
   const customsValueRef = useRef();
+  const boxDimensionsRef = useRef();
 
   const addRows = () => {
     setShowBoxes([...showBoxes, { weight: 0 }]);
@@ -82,6 +85,16 @@ const ShipOrder = () => {
     });
   };
 
+  const changeBoxDimension = (e, editedIndex) => {
+    setBoxDimInfo(prev => {
+      prev[editedIndex] = {
+        ...prev[editedIndex],
+        [e.target.name]: parseInt(e.target.value),
+      };
+      return prev;
+    });
+  };
+
   const changeValue = (e, editedIndex) => {
     setCustomsInfo(prev => {
       prev[editedIndex] = {
@@ -98,6 +111,7 @@ const ShipOrder = () => {
       actual_service: rate.service,
       actual_carrier: rate.carrier,
       box: newData,
+      box_dims: boxDimInfo,
       customs: customsInfo,
       shipment_id: location.state.shipment_id,
       rateId: rate.id,
@@ -183,6 +197,42 @@ const ShipOrder = () => {
         />
       </div>,
     ]);
+    // Append additional box dimensions.
+    setBoxDimensionsInputs(prev => [
+      ...prev,
+      <div>
+        <br />
+        <label htmlFor="boxdim-width" style={{ paddingRight: "12px" }}>
+          Width
+        </label>
+        <input
+          key={`boxdim-width-${prev.length}`}
+          name="width"
+          type="text"
+          onChange={e => changeBoxDimension(e, parseInt(prev.length + 1))}
+        />
+        <br />
+        <label htmlFor="boxdim-height" style={{ paddingRight: "12px" }}>
+          Height
+        </label>
+        <input
+          key={`boxdim-height-${prev.length}`}
+          name="height"
+          type="text"
+          onChange={e => changeBoxDimension(e, parseInt(prev.length + 1))}
+        />
+        <br />
+        <label htmlFor="boxdim-length" style={{ paddingRight: "12px" }}>
+          Length
+        </label>
+        <input
+          key={`boxdim-length-${prev.length}`}
+          name="length"
+          type="text"
+          onChange={e => changeBoxDimension(e, parseInt(prev.length + 1))}
+        />
+      </div>,
+    ]);
   };
 
   return (
@@ -194,6 +244,7 @@ const ShipOrder = () => {
             <TableRow>
               <TableCell align="center">Box</TableCell>
               <TableCell align="center">Weight (lbs)</TableCell>
+              <TableCell align="center">Dimensions (in)</TableCell>
               <TableCell align="center">Customs Description</TableCell>
               <TableCell align="center">Customs Value (USD)</TableCell>
               <TableCell align="center">Tariff Code</TableCell>
@@ -220,6 +271,47 @@ const ShipOrder = () => {
                     style={{ padding: ".2rem .6rem" }}
                     onChange={e => changeWeight(e, index)}
                   />
+                </TableCell>
+                <TableCell ref={boxDimensionsRef} align="center">
+                  <label
+                    htmlFor="boxdim-width"
+                    style={{ paddingRight: "12px" }}
+                  >
+                    Width
+                  </label>
+                  <input
+                    key="boxdim-width"
+                    name="width"
+                    type="text"
+                    onChange={e => changeBoxDimension(e, index)}
+                  />
+                  <br />
+                  <label
+                    htmlFor="boxdim-height"
+                    style={{ paddingRight: "12px" }}
+                  >
+                    Height
+                  </label>
+                  <input
+                    key="boxdim-height"
+                    name="height"
+                    type="text"
+                    onChange={e => changeBoxDimension(e, index)}
+                  />
+                  <br />
+                  <label
+                    htmlFor="boxdim-length"
+                    style={{ paddingRight: "12px" }}
+                  >
+                    Length
+                  </label>
+                  <input
+                    key="boxdim-length"
+                    name="length"
+                    type="text"
+                    onChange={e => changeBoxDimension(e, index)}
+                  />
+                  {boxDimensionsInputs}
                 </TableCell>
                 <TableCell ref={customsDescRef} align="center">
                   <input
