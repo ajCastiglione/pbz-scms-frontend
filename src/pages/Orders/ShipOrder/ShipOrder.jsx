@@ -202,6 +202,16 @@ const ShipOrder = () => {
       ...prev,
       <div>
         <br />
+        <label htmlFor="boxdim-length" style={{ paddingRight: "12px" }}>
+          Length
+        </label>
+        <input
+          key={`boxdim-length-${prev.length}`}
+          name="length"
+          type="text"
+          onChange={e => changeBoxDimension(e, parseInt(prev.length + 1))}
+        />
+        <br />
         <label htmlFor="boxdim-width" style={{ paddingRight: "12px" }}>
           Width
         </label>
@@ -218,16 +228,6 @@ const ShipOrder = () => {
         <input
           key={`boxdim-height-${prev.length}`}
           name="height"
-          type="text"
-          onChange={e => changeBoxDimension(e, parseInt(prev.length + 1))}
-        />
-        <br />
-        <label htmlFor="boxdim-length" style={{ paddingRight: "12px" }}>
-          Length
-        </label>
-        <input
-          key={`boxdim-length-${prev.length}`}
-          name="length"
           type="text"
           onChange={e => changeBoxDimension(e, parseInt(prev.length + 1))}
         />
@@ -274,6 +274,19 @@ const ShipOrder = () => {
                 </TableCell>
                 <TableCell ref={boxDimensionsRef} align="center">
                   <label
+                    htmlFor="boxdim-length"
+                    style={{ paddingRight: "12px" }}
+                  >
+                    Length
+                  </label>
+                  <input
+                    key="boxdim-length"
+                    name="length"
+                    type="text"
+                    onChange={e => changeBoxDimension(e, index)}
+                  />
+                  <br />
+                  <label
                     htmlFor="boxdim-width"
                     style={{ paddingRight: "12px" }}
                   >
@@ -295,19 +308,6 @@ const ShipOrder = () => {
                   <input
                     key="boxdim-height"
                     name="height"
-                    type="text"
-                    onChange={e => changeBoxDimension(e, index)}
-                  />
-                  <br />
-                  <label
-                    htmlFor="boxdim-length"
-                    style={{ paddingRight: "12px" }}
-                  >
-                    Length
-                  </label>
-                  <input
-                    key="boxdim-length"
-                    name="length"
                     type="text"
                     onChange={e => changeBoxDimension(e, index)}
                   />
