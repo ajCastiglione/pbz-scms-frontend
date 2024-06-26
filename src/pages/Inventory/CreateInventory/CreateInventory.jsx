@@ -56,6 +56,14 @@ const CreateInventory = () => {
   const [isReady, setIsReady] = useState(
     location.state ? location.state.ship_ready : false
   );
+
+  const [palletLocation, setPalletLocation] = useState(
+    location.state ? location.state.pallet_location : ""
+  );
+  const [binShelfLocation, setBinShelfLocation] = useState(
+    location.state ? location.state.bin_shelf_location : ""
+  );
+
   const [validationErrors, setValidationErrors] = useState({});
 
   // Clear inventory notification on unmount.
@@ -66,7 +74,7 @@ const CreateInventory = () => {
   }, [dispatch]);
 
   // Function to re-format data and dispatch redux action
-  const createInventory = (event) => {
+  const createInventory = event => {
     event.preventDefault();
     const validations = validation();
     if (Object.keys(validations).length) {
@@ -85,9 +93,11 @@ const CreateInventory = () => {
       qoh_units: parseInt(quantityUnits),
       case_weight: parseInt(caseWeight),
       reorder_quantity: parseInt(reorderQuantity),
-      length: (length === '' ? 0 : parseInt(length)),
-      width: (width === '' ? 0 : parseInt(width)),
-      height: (height === '' ? 0 : parseInt(height)),
+      length: length === "" ? 0 : parseInt(length),
+      width: width === "" ? 0 : parseInt(width),
+      height: height === "" ? 0 : parseInt(height),
+      pallet_location: palletLocation,
+      bin_shelf_location: binShelfLocation,
       ship_ready: isReady,
     };
     if (location.state) {
@@ -132,21 +142,25 @@ const CreateInventory = () => {
     history.goBack();
   };
   // Redux state consts
-  const message = useSelector((state) => state.inventory.message);
-  const error = useSelector((state) => state.inventory.error);
-  const loading = useSelector((state) => state.inventory.loading);
+  const message = useSelector(state => state.inventory.message);
+  const error = useSelector(state => state.inventory.error);
+  const loading = useSelector(state => state.inventory.loading);
 
-  const preValidation = (func, _name) => ({target: {value}}) => {
-      if(value !== '') {
-          if(_name == 'number') {
-            value = value.replace(/[^A-Za-z0-9]/ig, '')
-          }
-          const newValidationErrors = JSON.parse(JSON.stringify(validationErrors));
-          delete newValidationErrors[_name];
-          setValidationErrors(newValidationErrors);
+  const preValidation =
+    (func, _name) =>
+    ({ target: { value } }) => {
+      if (value !== "") {
+        if (_name == "number") {
+          value = value.replace(/[^A-Za-z0-9]/gi, "");
+        }
+        const newValidationErrors = JSON.parse(
+          JSON.stringify(validationErrors)
+        );
+        delete newValidationErrors[_name];
+        setValidationErrors(newValidationErrors);
       }
-    func(value);
-  }
+      func(value);
+    };
 
   return (
     <div>
@@ -157,76 +171,90 @@ const CreateInventory = () => {
             width="6"
             label="Item Name"
             value={name}
-            onChange={preValidation(setName, 'name')}
+            onChange={preValidation(setName, "name")}
             {...(validationErrors.name && { error: true })}
           />
           <TextField
             label="Item Number"
             value={number}
-            onChange={preValidation(setNumber, 'number')}
+            onChange={preValidation(setNumber, "number")}
             {...(validationErrors.number && { error: true })}
           />
           <TextField
             label="Case Quantity"
             value={caseQuantity}
-            onChange={preValidation(setCaseQuantity, 'caseQuantity')}
+            onChange={preValidation(setCaseQuantity, "caseQuantity")}
             type="number"
             {...(validationErrors.caseQuantity && { error: true })}
           />
           <TextField
             label="Unit Description"
             value={desc}
-            onChange={preValidation(setDesc, 'desc')}
+            onChange={preValidation(setDesc, "desc")}
             {...(validationErrors.desc && { error: true })}
           />
           <TextField
             label="Quantity - Case"
             value={quantityCase}
-            onChange={preValidation(setQuantityCase, 'quantityCase')}
+            onChange={preValidation(setQuantityCase, "quantityCase")}
             type="number"
             {...(validationErrors.quantityCase && { error: true })}
           />
           <TextField
             label="Quantity - Units"
             value={quantityUnits}
-            onChange={preValidation(setQuantityUnits, 'quantityUnits')}
+            onChange={preValidation(setQuantityUnits, "quantityUnits")}
             type="number"
             {...(validationErrors.quantityUnits && { error: true })}
           />
           <TextField
             label="Case Weight (pounds)"
             value={caseWeight}
-            onChange={preValidation(setCaseWeight, 'caseWeight')}
+            onChange={preValidation(setCaseWeight, "caseWeight")}
             type="number"
             {...(validationErrors.caseWeight && { error: true })}
           />
           <TextField
             label="Re-order Quantity"
             value={reorderQuantity}
-            onChange={preValidation(setReorderQuantity, 'reorderQuantity')}
+            onChange={preValidation(setReorderQuantity, "reorderQuantity")}
             type="number"
             {...(validationErrors.reorderQuantity && { error: true })}
           />
           <TextField
             label="Length (inches)"
             value={length}
-            onChange={preValidation(setLength, 'length')}
+            onChange={preValidation(setLength, "length")}
             type="number"
             {...(validationErrors.length && { error: true })}
           />
           <TextField
             label="Width (inches)"
             value={width}
-            onChange={preValidation(setWidth, 'width')}
+            onChange={preValidation(setWidth, "width")}
             type="number"
             {...(validationErrors.width && { error: true })}
           />
           <TextField
             label="Height (inches)"
             value={height}
-            onChange={preValidation(setHeight, 'height')}
+            onChange={preValidation(setHeight, "height")}
             type="number"
             {...(validationErrors.height && { error: true })}
+          />
+          <TextField
+            label="Pallet Location"
+            value={palletLocation}
+            onChange={preValidation(setPalletLocation, "palletLocation")}
+            type="text"
+            {...(validationErrors.palletLocation && { error: true })}
+          />
+          <TextField
+            label="Bin/Shelf Location"
+            value={binShelfLocation}
+            onChange={preValidation(setBinShelfLocation, "binShelfLocation")}
+            type="text"
+            {...(validationErrors.binShelfLocation && { error: true })}
           />
           <FormControlLabel
             control={
