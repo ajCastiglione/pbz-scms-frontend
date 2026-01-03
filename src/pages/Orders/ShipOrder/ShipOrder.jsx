@@ -198,42 +198,6 @@ const ShipOrder = () => {
         />
       </div>,
     ]);
-    // Append additional box dimensions.
-    setBoxDimensionsInputs(prev => [
-      ...prev,
-      <div>
-        <br />
-        <label htmlFor="boxdim-length" style={{ paddingRight: "12px" }}>
-          Length
-        </label>
-        <input
-          key={`boxdim-length-${prev.length}`}
-          name="length"
-          type="text"
-          onChange={e => changeBoxDimension(e, parseInt(prev.length + 1))}
-        />
-        <br />
-        <label htmlFor="boxdim-width" style={{ paddingRight: "12px" }}>
-          Width
-        </label>
-        <input
-          key={`boxdim-width-${prev.length}`}
-          name="width"
-          type="text"
-          onChange={e => changeBoxDimension(e, parseInt(prev.length + 1))}
-        />
-        <br />
-        <label htmlFor="boxdim-height" style={{ paddingRight: "12px" }}>
-          Height
-        </label>
-        <input
-          key={`boxdim-height-${prev.length}`}
-          name="height"
-          type="text"
-          onChange={e => changeBoxDimension(e, parseInt(prev.length + 1))}
-        />
-      </div>,
-    ]);
   };
 
   return (
